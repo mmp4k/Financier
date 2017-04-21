@@ -1,0 +1,14 @@
+{
+  "name": "mmp4k/financier",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "require": {
+    "behat/behat": "3.2.x-dev",
+    "phpspec/phpspec": "4.0.x-dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  }
+}
