@@ -6,4 +6,6 @@ interface Storage
 {
 
     public function getCurrentValue();
+
+    public function getAverageFromLastTenMonths();
 }
