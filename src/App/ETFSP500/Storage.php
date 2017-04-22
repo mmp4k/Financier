@@ -4,8 +4,7 @@ namespace App\ETFSP500;
 
 interface Storage
 {
+    public function getCurrentValue() : float;
 
-    public function getCurrentValue();
-
-    public function getAverageFromLastTenMonths();
+    public function getAverageFromLastTenMonths() : float;
 }
