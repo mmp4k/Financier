@@ -10,10 +10,6 @@ class LessThanAverage implements NotifierRule
      * @var Storage
      */
     private $storage;
-    /**
-     * @var LessThan
-     */
-    private $lessThan;
 
     public function __construct(Storage $storage)
     {
@@ -22,7 +18,7 @@ class LessThanAverage implements NotifierRule
 
     public function notify(): bool
     {
-        if ($this->storage->getCurrentValue() < $this->storage->getAverageFromLastTenMonths()) {
+        if ($this->storage->getCurrentValue() <= $this->storage->getAverageFromLastTenMonths()) {
             return true;
         }
 

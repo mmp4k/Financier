@@ -5,21 +5,36 @@ use Behat\Behat\Tester\Exception\PendingException;
 
 class ETFSP500Context implements Context
 {
+    /**
+     * @var \App\ETFSP500\Storage\TestStorage
+     */
+    private $storage;
+
+    /**
+     * @var \App\NotifierRule
+     */
+    private $notifier;
+
+    public function __construct()
+    {
+        $this->storage = new \App\ETFSP500\Storage\TestStorage();
+    }
 
     /**
      * @When /^Current value is "([^"]*)"$/
      */
-    public function currentValueIs($arg1)
+    public function currentValueIs($currentValue)
     {
-        throw new PendingException();
+        $this->storage->setCurrentValue($currentValue);
     }
 
     /**
      * @Given /^Average is "([^"]*)"$/
      */
-    public function averageIs($arg1)
+    public function averageIs($average)
     {
-        throw new PendingException();
+        $this->storage->setAverageFromLastTenMonths($average);
+        $this->notifier = new \App\ETFSP500\LessThanAverage($this->storage);
     }
 
     /**
@@ -27,7 +42,8 @@ class ETFSP500Context implements Context
      */
     public function iShouldReceivedNotification()
     {
-        throw new PendingException();
+        $notify = $this->notifier->notify();
+        assert(true === $notify, 'Notify is: ' . $notify);
     }
 
     /**
@@ -35,14 +51,15 @@ class ETFSP500Context implements Context
      */
     public function iShouldNotReceivedNotification()
     {
-        throw new PendingException();
+        $notify = $this->notifier->notify();
+        assert(false === $notify, 'Notify is: ' . $notify);
     }
 
     /**
      * @Given /^Lower limit is "([^"]*)"$/
      */
-    public function lowerLimitIs($arg1)
+    public function lowerLimitIs($minValue)
     {
-        throw new PendingException();
+        $this->notifier = new \App\ETFSP500\LessThan($this->storage, $minValue);
     }
 }
