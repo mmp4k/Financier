@@ -3,6 +3,7 @@
 namespace spec\Architecture\ETFSP500;
 
 use App\ETFSP500\MonthlyAverage;
+use App\ETFSP500\DailyAverage;
 use App\ETFSP500\MonthlyAverageCollection;
 use Architecture\ETFSP500\Persister;
 use Architecture\ETFSP500\PersisterStorage;
@@ -32,5 +33,11 @@ class PersisterSpec extends ObjectBehavior
 
         $this->saveMonthlyAverage($monthlyAverageCollection);
         $storage->persistMonthlyAverage($monthlyAverage)->shouldHaveBeenCalled();
+    }
+
+    function it_saves_daily_average(PersisterStorage $storage, DailyAverage $dailyAverage)
+    {
+        $this->saveDailyAverage($dailyAverage);
+        $storage->persistDailyAverage($dailyAverage)->shouldHaveBeenCalled();
     }
 }

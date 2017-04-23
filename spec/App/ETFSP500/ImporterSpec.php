@@ -5,6 +5,7 @@ namespace spec\App\ETFSP500;
 use App\ETFSP500\Importer;
 use App\ETFSP500\Source;
 use App\ETFSP500\MonthlyAverageCollection;
+use App\ETFSP500\DailyAverageCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -38,5 +39,28 @@ SOURCE;
         $this->parseAverage()->shouldImplement(\Iterator::class);
 
         assert($collection->count() === 6);
+    }
+
+    function it_parses_daily_table_in_csv_format(Source $source)
+    {
+        $csv = <<<SOURCE
+2017-04-12,192,196.95,191.55,192,9140
+2017-04-13,192,201.8,191.8,193.5,4485
+2017-04-18,193.5,198.4,193,193.55,3627
+2017-04-19,195.3,195.3,191.5,193,3085
+2017-04-20,193.7,193.7,186.15,191.4,14344
+2017-04-21,190.15,192.45,189,190.6,3803
+SOURCE;
+
+        $source->dailyAverageFromBeginning()->willReturn($csv);
+        $source->dailyAverageFromBeginning()->shouldBeCalled();
+
+        /** @var DailyAverageCollection $collection */
+        $collection = $this->parseDaily()->shouldBeAnInstanceOf(DailyAverageCollection::class);
+        $this->parseDaily()->shouldImplement(\Iterator::class);
+
+        assert($collection->count() === 6);
+
+
     }
 }

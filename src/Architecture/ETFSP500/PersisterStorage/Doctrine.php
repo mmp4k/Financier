@@ -2,6 +2,7 @@
 
 namespace Architecture\ETFSP500\PersisterStorage;
 
+use App\ETFSP500\DailyAverage;
 use App\ETFSP500\MonthlyAverage;
 use Architecture\ETFSP500\PersisterStorage;
 use Doctrine\DBAL\Configuration;
@@ -44,4 +45,30 @@ class Doctrine implements PersisterStorage
             ->execute();
 
     }
+
+    public function persistDailyAverage(DailyAverage $dailyAverage): void
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $row = $qb->select('*')
+            ->from('etfsp500_daily_average', 'a')
+            ->where('date = :date')
+            ->setParameters([
+                ':date' => $dailyAverage->date()->format('Y-m-d')
+            ])
+            ->execute()->fetch();
+
+        if ($row) {
+            return;
+        }
+
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb->insert('etfsp500_daily_average')
+            ->setValue('date', '?')
+            ->setValue('average', $dailyAverage->average())
+            ->setParameter(0, $dailyAverage->date()->format('Y-m-d'))
+            ->execute();
+
+    }
+
 }

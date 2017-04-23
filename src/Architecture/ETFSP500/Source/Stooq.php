@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 class Stooq implements Source
 {
     private const URL_AVERAGE_FROM_BEGINNING = 'https://stooq.pl/q/d/l/?s=etfsp500.pl&i=m';
+    private const URL_DAILY_SINCE_BEGINNING = 'https://stooq.pl/q/d/l/?s=etfsp500.pl&i=d';
     private $client;
 
     public function __construct()
@@ -21,4 +22,12 @@ class Stooq implements Source
 
         return substr($request->getBody(), strpos($request->getBody(), "\n") + 1);
     }
+
+    public function dailyAverageFromBeginning() : string
+    {
+        $request = $this->client->request('GET', self::URL_DAILY_SINCE_BEGINNING);
+
+        return substr($request->getBody(), strpos($request->getBody(), "\n") + 1);
+    }
+
 }

@@ -25,4 +25,15 @@ class Importer
         }
         return $collections;
     }
+
+    public function parseDaily()
+    {
+        $collections = new DailyAverageCollection();
+
+        foreach (explode("\n", trim($this->source->dailyAverageFromBeginning())) as $line) {
+            list($date, $open, $topPick, $downPick, $close, $volume) = explode(',', $line);
+            $collections->add(new DailyAverage(\DateTime::createFromFormat('Y-m-d', $date), (float) $close));
+        }
+        return $collections;
+    }
 }
