@@ -4,13 +4,24 @@ namespace App;
 
 class Notifier
 {
+    /**
+     * @var array|NotifierRule[]
+     */
+    protected $notifiers = [];
+
     public function collect(NotifierRule $notifierRule)
     {
-        // TODO: write logic here
+        $this->notifiers[] = $notifierRule;
     }
 
     public function notify()
     {
-        // TODO: write logic here
+        foreach ($this->notifiers as $notifier) {
+            if (!$notifier->notify()) {
+                continue;
+            }
+
+            echo get_class($notifier) . "\n";
+        }
     }
 }

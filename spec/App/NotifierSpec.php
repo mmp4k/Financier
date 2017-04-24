@@ -20,4 +20,13 @@ class NotifierSpec extends ObjectBehavior
         $this->collect($notifierRule);
         $this->notify();
     }
+
+    function it_notify(NotifierRule $notifierRule)
+    {
+        $notifierRule->notify()->shouldBeCalled();
+
+        $this->collect($notifierRule);
+
+        $this->notify();
+    }
 }

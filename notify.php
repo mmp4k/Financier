@@ -10,7 +10,7 @@ $connectionParams = array(
     'driver' => 'pdo_mysql',
 );
 
-$storage = new \Architecture\ETFSP500\Storage\Doctrine();
+$storage = new \Architecture\ETFSP500\Storage\Doctrine($connectionParams);
 
 $notifier = new \App\Notifier();
 $notifier->collect(new \App\ETFSP500\LessThan($storage, 86.4));
