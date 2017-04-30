@@ -20,8 +20,6 @@ class Notifier
             if (!$notifier->notify()) {
                 continue;
             }
-
-            echo get_class($notifier) . "\n";
         }
     }
 }
