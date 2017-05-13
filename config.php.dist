@@ -1,0 +1,18 @@
+<?php
+$config = [
+    'notifier' => [
+        'swiftmailer.user' => '',
+        'swiftmailer.pass' => '',
+        'swiftmailer.host' => '',
+        'swiftmailer.send_to' => '',
+    ],
+    'database' => [
+        'dbname' => '',
+        'user' => '',
+        'password' => '',
+        'host' => '',
+        'driver' => 'pdo_mysql',
+    ],
+];
+
+return $config;

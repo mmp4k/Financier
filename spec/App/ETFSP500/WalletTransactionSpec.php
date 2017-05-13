@@ -35,7 +35,7 @@ class WalletTransactionSpec extends ObjectBehavior
     function it_has_value_of_investment()
     {
         $this->valueOfInvestment()->shouldBeFloat();
-        $this->valueOfInvestment()->shouldBe(70.0);
+        $this->valueOfInvestment()->shouldBe(80.0);
     }
 
     function it_has_commissions()

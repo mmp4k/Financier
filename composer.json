@@ -6,7 +6,8 @@
     "behat/behat": "3.2.x-dev",
     "phpspec/phpspec": "4.0.x-dev",
     "guzzlehttp/guzzle": "6.2.3",
-    "doctrine/dbal": "2.6.x-dev"
+    "doctrine/dbal": "2.6.x-dev",
+    "swiftmailer/swiftmailer": "^5.4"
   },
   "autoload": {
     "psr-0": {

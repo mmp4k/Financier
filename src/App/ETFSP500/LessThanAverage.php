@@ -24,4 +24,14 @@ class LessThanAverage implements NotifierRule
 
         return false;
     }
+
+    public function getCurrentValue()
+    {
+        return $this->storage->getCurrentValue();
+    }
+
+    public function getAverageFromLastTenMonths()
+    {
+        return $this->storage->getAverageFromLastTenMonths();
+    }
 }

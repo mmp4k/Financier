@@ -41,7 +41,7 @@ class WalletTransaction
 
     public function valueOfInvestment() : float
     {
-        return $this->assets() * $this->priceSingleAsset - $this->commissionIn();
+        return $this->assets() * $this->priceSingleAsset + $this->commissionIn();
     }
 
     public function boughtValue() : float

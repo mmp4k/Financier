@@ -20,6 +20,28 @@ class Wallet
         return $assets;
     }
 
+    public function valueOfInvestment() : float
+    {
+        $value = 0.0;
+
+        foreach ($this->transactions as $transaction) {
+            $value += $transaction->valueOfInvestment();
+        }
+
+        return $value;
+    }
+
+    public function boughtValue() : float
+    {
+        $value = 0.0;
+
+        foreach ($this->transactions as $transaction) {
+            $value += $transaction->boughtValue();
+        }
+
+        return $value;
+    }
+
     public function addTransaction(WalletTransaction $transaction) : void
     {
         $this->transactions[] = $transaction;

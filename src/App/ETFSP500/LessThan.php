@@ -30,4 +30,13 @@ class LessThan implements NotifierRule
         return false;
     }
 
+    public function getMinValue()
+    {
+        return $this->minValue;
+    }
+
+    public function getCurrentValue()
+    {
+        return $this->storage->getCurrentValue();
+    }
 }

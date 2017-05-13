@@ -24,6 +24,16 @@ class WalletSpec extends ObjectBehavior
         $this->boughtAssets()->shouldBeNumeric();
     }
 
+    function it_stores_value_of_investment()
+    {
+        $this->valueOfInvestment()->shouldBeFloat();
+    }
+
+    function it_stores_bought_value()
+    {
+        $this->boughtValue()->shouldBeFloat();
+    }
+
     function it_calculates_profit()
     {
         $currentPrice = 20.0;
@@ -36,7 +46,7 @@ class WalletSpec extends ObjectBehavior
         $this->addTransaction($transaction2);
 
         $this->profit($currentPrice, $commissionOut)->shouldBeFloat();
-        $this->profit($currentPrice, $commissionOut)->shouldBe(1.2333);
+        $this->profit($currentPrice, $commissionOut)->shouldBeApproximately(1.2333, 0.0001);
     }
 
     function it_calculate_current_value()

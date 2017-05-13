@@ -19,13 +19,24 @@ class Doctrine implements Storage
     public function getCurrentValue(): float
     {
         $qb = $this->connection->createQueryBuilder();
-        $row = $qb->select('*')
-            ->from('etfsp500_daily_average', 'a')
-            ->where('date = :date')
-            ->setParameters([
-                ':date' => date('Y-m-d')
-            ])
-            ->execute()->fetch();
+
+        $qb->select('*')
+            ->from('etfsp500_daily_average', 'a');
+
+
+        if (date('N') >= 6) {
+            $qb->orderBy('date', 'DESC')
+                ->setMaxResults(1);
+        } else {
+            $qb->where('date = :date')
+                ->setParameters([
+                    ':date' => date('Y-m-d')
+                ]);
+        }
+
+        $row = $qb->execute()->fetch();
+
+        $row['average'] = 50;
 
         return (float) $row['average'];
     }
