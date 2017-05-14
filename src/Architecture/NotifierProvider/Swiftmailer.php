@@ -2,8 +2,8 @@
 
 namespace Architecture\NotifierProvider;
 
-use App\NotifierProvider;
-use App\NotifierRule;
+use Domain\NotifierProvider;
+use Domain\NotifierRule;
 
 class Swiftmailer implements NotifierProvider
 {

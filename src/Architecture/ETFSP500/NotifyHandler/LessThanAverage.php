@@ -2,13 +2,13 @@
 
 namespace Architecture\ETFSP500\NotifyHandler;
 
-use App\NotifierRule;
-use App\NotifyHandler;
+use Domain\NotifierRule;
+use Domain\NotifyHandler;
 
 class LessThanAverage implements NotifyHandler
 {
     /**
-     * @param NotifierRule|\App\ETFSP500\LessThanAverage $notifierRule
+     * @param NotifierRule|\Domain\ETFSP500\LessThanAverage $notifierRule
      * @return string
      */
     public function prepareBody(NotifierRule $notifierRule)
@@ -23,7 +23,7 @@ class LessThanAverage implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        if (get_class($notifierRule) === \App\ETFSP500\LessThanAverage::class) {
+        if (get_class($notifierRule) === \Domain\ETFSP500\LessThanAverage::class) {
             return true;
         }
 

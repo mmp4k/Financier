@@ -2,8 +2,8 @@
 
 namespace Architecture\ETFSP500;
 
-use App\ETFSP500\DailyAverage;
-use App\ETFSP500\MonthlyAverageCollection;
+use Domain\ETFSP500\DailyAverage;
+use Domain\ETFSP500\MonthlyAverageCollection;
 
 class Persister
 {

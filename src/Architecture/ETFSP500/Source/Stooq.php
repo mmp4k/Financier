@@ -2,7 +2,7 @@
 
 namespace Architecture\ETFSP500\Source;
 
-use App\ETFSP500\Source;
+use Domain\ETFSP500\Source;
 use GuzzleHttp\Client;
 
 class Stooq implements Source

@@ -2,9 +2,9 @@
 
 namespace spec\Architecture\ETFSP500;
 
-use App\ETFSP500\MonthlyAverage;
-use App\ETFSP500\DailyAverage;
-use App\ETFSP500\MonthlyAverageCollection;
+use Domain\ETFSP500\MonthlyAverage;
+use Domain\ETFSP500\DailyAverage;
+use Domain\ETFSP500\MonthlyAverageCollection;
 use Architecture\ETFSP500\Persister;
 use Architecture\ETFSP500\PersisterStorage;
 use PhpSpec\ObjectBehavior;

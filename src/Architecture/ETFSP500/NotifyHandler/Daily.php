@@ -2,10 +2,10 @@
 
 namespace Architecture\ETFSP500\NotifyHandler;
 
-use App\ETFSP500\Storage;
-use App\ETFSP500\Wallet;
-use App\NotifierRule;
-use App\NotifyHandler;
+use Domain\ETFSP500\Storage;
+use Domain\ETFSP500\Wallet;
+use Domain\NotifierRule;
+use Domain\NotifyHandler;
 
 class Daily implements NotifyHandler
 {
@@ -38,6 +38,6 @@ class Daily implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        return get_class($notifierRule) === \App\ETFSP500\NotifierRule\Daily::class;
+        return get_class($notifierRule) === \Domain\ETFSP500\NotifierRule\Daily::class;
     }
 }

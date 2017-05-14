@@ -2,7 +2,7 @@
 
 namespace Architecture\ETFSP500\Storage;
 
-use App\ETFSP500\Storage;
+use Domain\ETFSP500\Storage;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 

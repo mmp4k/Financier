@@ -6,18 +6,18 @@ use Behat\Behat\Tester\Exception\PendingException;
 class ETFSP500Context implements Context
 {
     /**
-     * @var \App\ETFSP500\Storage\TestStorage
+     * @var \Domain\ETFSP500\Storage\TestStorage
      */
     private $storage;
 
     /**
-     * @var \App\NotifierRule
+     * @var \Domain\NotifierRule
      */
     private $notifier;
 
     public function __construct()
     {
-        $this->storage = new \App\ETFSP500\Storage\TestStorage();
+        $this->storage = new \Domain\ETFSP500\Storage\TestStorage();
     }
 
     /**
@@ -34,7 +34,7 @@ class ETFSP500Context implements Context
     public function averageIs($average)
     {
         $this->storage->setAverageFromLastTenMonths($average);
-        $this->notifier = new \App\ETFSP500\LessThanAverage($this->storage);
+        $this->notifier = new \Domain\ETFSP500\LessThanAverage($this->storage);
     }
 
     /**
@@ -60,6 +60,6 @@ class ETFSP500Context implements Context
      */
     public function lowerLimitIs($minValue)
     {
-        $this->notifier = new \App\ETFSP500\LessThan($this->storage, $minValue);
+        $this->notifier = new \Domain\ETFSP500\LessThan($this->storage, $minValue);
     }
 }

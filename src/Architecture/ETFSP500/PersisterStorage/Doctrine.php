@@ -2,8 +2,8 @@
 
 namespace Architecture\ETFSP500\PersisterStorage;
 
-use App\ETFSP500\DailyAverage;
-use App\ETFSP500\MonthlyAverage;
+use Domain\ETFSP500\DailyAverage;
+use Domain\ETFSP500\MonthlyAverage;
 use Architecture\ETFSP500\PersisterStorage;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
