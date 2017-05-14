@@ -63,4 +63,21 @@ class WalletSpec extends ObjectBehavior
         $this->currentValue($currentPrice, $commissionOut)->shouldBeFloat();
         $this->currentValue($currentPrice, $commissionOut)->shouldBe(185.0);
     }
+
+    function it_orders_transactions(WalletTransaction $walletTransaction1, WalletTransaction $walletTransaction2, WalletTransaction $walletTransaction3)
+    {
+        $dateTime1 = \DateTime::createFromFormat('d.m.Y', '01.02.2017');
+        $dateTime2 = \DateTime::createFromFormat('d.m.Y', '02.02.2017');
+        $dateTime3 = \DateTime::createFromFormat('d.m.Y', '03.02.2017');
+
+        $walletTransaction1->date()->willReturn($dateTime2);
+        $walletTransaction2->date()->willReturn($dateTime3);
+        $walletTransaction3->date()->willReturn($dateTime1);
+
+        $this->addTransaction($walletTransaction1);
+        $this->addTransaction($walletTransaction2);
+        $this->addTransaction($walletTransaction3);
+
+        $this->getTransactions()->shouldBe([$walletTransaction3, $walletTransaction1, $walletTransaction2]);
+    }
 }

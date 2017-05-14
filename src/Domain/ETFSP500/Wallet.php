@@ -68,4 +68,17 @@ class Wallet
 
         return $values;
     }
+
+    public function getTransactions()
+    {
+        $sortedTransactions = $this->transactions; // copy to usort, usort uses reference
+
+        usort($sortedTransactions, function($a, $b) {
+            /** @var WalletTransaction $a */
+            /** @var WalletTransaction $b */
+            return $a->date() > $b->date() ? 1 : -1;
+        });
+
+        return $sortedTransactions;
+    }
 }
