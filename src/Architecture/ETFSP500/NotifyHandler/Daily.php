@@ -2,6 +2,7 @@
 
 namespace Architecture\ETFSP500\NotifyHandler;
 
+use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Domain\ETFSP500\Wallet;
 use Domain\NotifierRule;
@@ -27,11 +28,13 @@ class Daily implements NotifyHandler
 
     public function prepareBody(NotifierRule $notifierRule)
     {
+        $businessDay = new BusinessDay(new \DateTime());
+
         $body = 'Bought assets: ' . $this->wallet->boughtAssets() . "\n";
         $body .= 'Value of assets: ' . $this->wallet->boughtValue() . "\n";
         $body .= 'Spent money: ' . $this->wallet->valueOfInvestment() . "\n";
-        $body .= 'Current value: ' . $this->wallet->currentValue($this->storage->getCurrentValue(), 5.0) . "\n";
-        $body .= 'Profit: ' . $this->wallet->profit($this->storage->getCurrentValue(), 5.0);
+        $body .= 'Current value: ' . $this->wallet->currentValue($this->storage->getCurrentValue($businessDay), 5.0) . "\n";
+        $body .= 'Profit: ' . $this->wallet->profit($this->storage->getCurrentValue($businessDay), 5.0);
 
         return $body;
     }

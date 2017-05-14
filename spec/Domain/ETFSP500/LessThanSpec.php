@@ -2,6 +2,7 @@
 
 namespace spec\Domain\ETFSP500;
 
+use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\LessThan;
 use Domain\NotifierRule;
 use PhpSpec\ObjectBehavior;
@@ -10,9 +11,9 @@ use Domain\ETFSP500\Storage;
 
 class LessThanSpec extends ObjectBehavior
 {
-    function let(Storage $storage)
+    function let(Storage $storage, BusinessDay $businessDay)
     {
-        $this->beConstructedWith($storage, 65.1);
+        $this->beConstructedWith($storage, 65.1, $businessDay);
         $this->shouldImplement(NotifierRule::class);
     }
 
@@ -21,21 +22,27 @@ class LessThanSpec extends ObjectBehavior
         $this->shouldHaveType(LessThan::class);
     }
 
-    function it_notifies_for_less_values(Storage $storage)
+    function it_notifies_for_less_values(Storage $storage, BusinessDay $businessDay)
     {
-        $storage->getCurrentValue()->willReturn(64);
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getCurrentValue($businessDay)->willReturn(64);
         $this->notify()->shouldBe(true);
     }
 
-    function it_notifies_for_less_float_values(Storage $storage)
+    function it_notifies_for_less_float_values(Storage $storage, BusinessDay $businessDay)
     {
-        $storage->getCurrentValue()->willReturn(65.09);
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getCurrentValue($businessDay)->willReturn(65.09);
         $this->notify()->shouldBe(true);
     }
 
-    function it_does_not_notify_for_bigger_values(Storage $storage)
+    function it_does_not_notify_for_bigger_values(Storage $storage, BusinessDay $businessDay)
     {
-        $storage->getCurrentValue()->willReturn(65.11);
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getCurrentValue($businessDay)->willReturn(65.11);
         $this->notify()->shouldBe(false);
     }
 }

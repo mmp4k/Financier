@@ -15,9 +15,15 @@ class ETFSP500Context implements Context
      */
     private $notifier;
 
+    /**
+     * @var \Domain\ETFSP500\BusinessDay
+     */
+    private $businessDay;
+
     public function __construct()
     {
         $this->storage = new \Domain\ETFSP500\Storage\TestStorage();
+        $this->businessDay = new \Domain\ETFSP500\BusinessDay(\DateTime::createFromFormat('d.m.Y', '12.05.2017'));
     }
 
     /**
@@ -34,7 +40,7 @@ class ETFSP500Context implements Context
     public function averageIs($average)
     {
         $this->storage->setAverageFromLastTenMonths($average);
-        $this->notifier = new \Domain\ETFSP500\LessThanAverage($this->storage);
+        $this->notifier = new \Domain\ETFSP500\LessThanAverage($this->storage, $this->businessDay);
     }
 
     /**
@@ -60,6 +66,6 @@ class ETFSP500Context implements Context
      */
     public function lowerLimitIs($minValue)
     {
-        $this->notifier = new \Domain\ETFSP500\LessThan($this->storage, $minValue);
+        $this->notifier = new \Domain\ETFSP500\LessThan($this->storage, $minValue, $this->businessDay);
     }
 }

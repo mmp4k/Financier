@@ -2,6 +2,7 @@
 
 namespace Domain\ETFSP500\Storage;
 
+use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 
 class TestStorage implements Storage
@@ -18,7 +19,7 @@ class TestStorage implements Storage
     {
         $this->average = $average;
     }
-    public function getCurrentValue(): float
+    public function getCurrentValue(BusinessDay $businessDay): float
     {
         return (float) $this->currentValue;
     }

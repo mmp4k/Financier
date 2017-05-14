@@ -2,6 +2,7 @@
 
 namespace Architecture\ETFSP500\Storage;
 
+use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -16,7 +17,7 @@ class Doctrine implements Storage
         $this->connection = DriverManager::getConnection($connectionParams, $config);
     }
 
-    public function getCurrentValue(): float
+    public function getCurrentValue(BusinessDay $businessDay): float
     {
         $qb = $this->connection->createQueryBuilder();
 
@@ -24,7 +25,7 @@ class Doctrine implements Storage
             ->from('etfsp500_daily_average', 'a');
 
 
-        if (date('N') >= 6) {
+        if (!$businessDay->isBusinessDay()) {
             $qb->orderBy('date', 'DESC')
                 ->setMaxResults(1);
         } else {
