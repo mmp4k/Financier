@@ -16,6 +16,10 @@ class BusinessDay
 
     public function isBusinessDay() : bool
     {
+        if ($this->dateTime->format('z') == 0) {
+            return false;
+        }
+
         if ($this->dateTime->format('N') >= 6) {
             return false;
         }
