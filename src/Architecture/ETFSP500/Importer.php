@@ -1,6 +1,12 @@
 <?php
 
-namespace Domain\ETFSP500;
+namespace Architecture\ETFSP500;
+
+use Domain\ETFSP500\DailyAverage;
+use Domain\ETFSP500\DailyAverageCollection;
+use Domain\ETFSP500\MonthlyAverage;
+use Domain\ETFSP500\MonthlyAverageCollection;
+use Domain\ETFSP500\Source;
 
 class Importer
 {
