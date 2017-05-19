@@ -1,0 +1,7 @@
+{
+  "name": "financier",
+  "version": "0.0.1",
+  "devDependencies": {
+    "graphiql" : "0.10"
+  }
+}

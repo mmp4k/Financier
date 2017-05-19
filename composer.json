@@ -8,7 +8,8 @@
     "guzzlehttp/guzzle": "6.2.3",
     "doctrine/dbal": "2.6.x-dev",
     "swiftmailer/swiftmailer": "^5.4",
-    "doctrine/migrations": "^1.5"
+    "doctrine/migrations": "^1.5",
+    "youshido/graphql": "v1.4.3.3"
   },
   "autoload": {
     "psr-0": {
