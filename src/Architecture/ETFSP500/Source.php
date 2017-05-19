@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ETFSP500;
+namespace Architecture\ETFSP500;
 
 interface Source
 {

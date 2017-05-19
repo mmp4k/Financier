@@ -6,7 +6,7 @@ use Domain\ETFSP500\DailyAverage;
 use Domain\ETFSP500\DailyAverageCollection;
 use Domain\ETFSP500\MonthlyAverage;
 use Domain\ETFSP500\MonthlyAverageCollection;
-use Domain\ETFSP500\Source;
+use Architecture\ETFSP500\Source;
 
 class Importer
 {
@@ -20,7 +20,7 @@ class Importer
         $this->source = $source;
     }
 
-    public function parseAverage()
+    public function parseAverage() : MonthlyAverageCollection
     {
         $collections = new MonthlyAverageCollection();
 
@@ -32,7 +32,7 @@ class Importer
         return $collections;
     }
 
-    public function parseDaily()
+    public function parseDaily() : DailyAverageCollection
     {
         $collections = new DailyAverageCollection();
 
