@@ -37,8 +37,6 @@ class Doctrine implements Storage
 
         $row = $qb->execute()->fetch();
 
-        $row['average'] = 50;
-
         return (float) $row['average'];
     }
 

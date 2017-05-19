@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 class Stooq implements Source
 {
     private const URL_AVERAGE_FROM_BEGINNING = 'https://stooq.pl/q/d/l/?s=etfsp500.pl&i=m';
-    private const URL_DAILY_SINCE_BEGINNING = 'https://stooq.pl/q/d/l/?s=etfsp500.pl&i=d';
+    private const URL_DAILY_SINCE_BEGINNING = 'https://stooq.pl/q/g/?s=etfsp500.pl';
     private $client;
 
     public function __construct()
@@ -27,7 +27,9 @@ class Stooq implements Source
     {
         $request = $this->client->request('GET', self::URL_DAILY_SINCE_BEGINNING);
 
-        return substr($request->getBody(), strpos($request->getBody(), "\n") + 1);
+        preg_match('#<td id=t03>Kurs</td><td><b>([0-9\.]+)</b></td>#', $request->getBody(), $sharePrice);
+
+        return date('Y-m-d') . ',,,,' . $sharePrice[1] . ',';
     }
 
 }
