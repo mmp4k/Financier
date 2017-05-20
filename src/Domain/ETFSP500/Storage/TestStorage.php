@@ -19,6 +19,7 @@ class TestStorage implements Storage
     {
         $this->average = $average;
     }
+
     public function getCurrentValue(BusinessDay $businessDay): float
     {
         return (float) $this->currentValue;
