@@ -45,4 +45,17 @@ class LessThanSpec extends ObjectBehavior
         $storage->getCurrentValue($businessDay)->willReturn(65.11);
         $this->notify()->shouldBe(false);
     }
+
+    function it_gets_value_when_alert_is_open()
+    {
+        $this->getMinValue()->shouldBe(65.1);
+    }
+
+    function it_gets_current_value(Storage $storage, BusinessDay $businessDay)
+    {
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getCurrentValue($businessDay)->willReturn(65.11);
+        $this->getCurrentValue()->shouldBe(65.11);
+    }
 }
