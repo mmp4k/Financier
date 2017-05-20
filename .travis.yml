@@ -4,6 +4,8 @@ php:
   - nightly
 install:
   - composer install --dev
+before_script:
+  - phpenv config-rm xdebug.ini
 script:
-  - ./vendor/bin/phpspec run
+  - phpdbg -qrr ./vendor/bin/phpspec run
   - ./vendor/bin/behat
