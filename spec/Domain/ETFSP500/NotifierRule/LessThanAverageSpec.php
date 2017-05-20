@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Domain\ETFSP500;
+namespace spec\Domain\ETFSP500\NotifierRule;
 
 use Domain\ETFSP500\BusinessDay;
-use Domain\ETFSP500\LessThanAverage;
+use Domain\ETFSP500\NotifierRule\LessThanAverage;
 use Domain\ETFSP500\Storage;
 use Domain\Notifier\NotifierRule;
 use PhpSpec\ObjectBehavior;

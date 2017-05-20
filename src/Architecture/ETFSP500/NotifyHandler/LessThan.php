@@ -8,7 +8,7 @@ use Domain\Notifier\NotifyHandler;
 class LessThan implements NotifyHandler
 {
     /**
-     * @param NotifierRule|\Domain\ETFSP500\LessThan $notifierRule
+     * @param NotifierRule|\Domain\ETFSP500\NotifierRule\LessThan $notifierRule
      * @return string
      */
     public function prepareBody(NotifierRule $notifierRule)
@@ -23,7 +23,7 @@ class LessThan implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        if (get_class($notifierRule) === \Domain\ETFSP500\LessThan::class) {
+        if (get_class($notifierRule) === \Domain\ETFSP500\NotifierRule\LessThan::class) {
             return true;
         }
 

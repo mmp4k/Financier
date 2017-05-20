@@ -4,12 +4,13 @@
   "license": "proprietary",
   "require": {
     "behat/behat": "3.2.x-dev",
-    "phpspec/phpspec": "4.0.x-dev",
+    "phpspec/phpspec": "^3.0",
     "guzzlehttp/guzzle": "6.2.3",
     "doctrine/dbal": "2.6.x-dev",
     "swiftmailer/swiftmailer": "^5.4",
     "doctrine/migrations": "^1.5",
-    "youshido/graphql": "v1.4.3.3"
+    "youshido/graphql": "v1.4.3.3",
+    "leanphp/phpspec-code-coverage": "^3.1"
   },
   "autoload": {
     "psr-0": {

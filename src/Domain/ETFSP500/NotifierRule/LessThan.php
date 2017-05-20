@@ -1,7 +1,9 @@
 <?php
 
-namespace Domain\ETFSP500;
+namespace Domain\ETFSP500\NotifierRule;
 
+use Domain\ETFSP500\BusinessDay;
+use Domain\ETFSP500\Storage;
 use Domain\Notifier\NotifierRule;
 
 class LessThan implements NotifierRule
