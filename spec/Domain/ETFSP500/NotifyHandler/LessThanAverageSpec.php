@@ -13,7 +13,7 @@ class LessThanAverageSpec extends ObjectBehavior
         $this->shouldHaveType(LessThanAverage::class);
     }
 
-    function is_supports_daily_rule(\Domain\ETFSP500\NotifierRule\LessThanAverage $lessThanAverage)
+    function it_supports_daily_rule(\Domain\ETFSP500\NotifierRule\LessThanAverage $lessThanAverage)
     {
         $this->isSupported($lessThanAverage)->shouldBe(true);
     }

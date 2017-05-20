@@ -14,7 +14,7 @@ class LessThanSpec extends ObjectBehavior
         $this->shouldHaveType(LessThan::class);
     }
 
-    function is_supports_daily_rule(\Domain\ETFSP500\NotifierRule\LessThan $lessThan)
+    function it_supports_daily_rule(\Domain\ETFSP500\NotifierRule\LessThan $lessThan)
     {
         $this->isSupported($lessThan)->shouldBe(true);
     }

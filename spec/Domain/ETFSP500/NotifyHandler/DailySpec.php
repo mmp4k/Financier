@@ -22,7 +22,7 @@ class DailySpec extends ObjectBehavior
         $this->shouldHaveType(Daily::class);
     }
 
-    function is_supports_daily_rule(\Domain\ETFSP500\NotifierRule\Daily $daily)
+    function it_supports_daily_rule(\Domain\ETFSP500\NotifierRule\Daily $daily)
     {
         $this->isSupported($daily)->shouldBe(true);
     }
