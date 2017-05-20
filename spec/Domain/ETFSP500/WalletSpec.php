@@ -19,19 +19,46 @@ class WalletSpec extends ObjectBehavior
         $this->addTransaction($asset);
     }
 
-    function it_stores_bought_assets()
+    function it_stores_bought_assets(WalletTransaction $walletTransaction1, WalletTransaction $walletTransaction2, WalletTransaction $walletTransaction3)
     {
+        $walletTransaction1->assets()->willReturn(1);
+        $walletTransaction2->assets()->willReturn(2);
+        $walletTransaction3->assets()->willReturn(3);
+
+        $this->addTransaction($walletTransaction1);
+        $this->addTransaction($walletTransaction2);
+        $this->addTransaction($walletTransaction3);
+
         $this->boughtAssets()->shouldBeNumeric();
+        $this->boughtAssets()->shouldBe(6);
     }
 
-    function it_stores_value_of_investment()
+    function it_stores_value_of_investment(WalletTransaction $walletTransaction1, WalletTransaction $walletTransaction2, WalletTransaction $walletTransaction3)
     {
+        $walletTransaction1->valueOfInvestment()->willReturn(1);
+        $walletTransaction2->valueOfInvestment()->willReturn(2);
+        $walletTransaction3->valueOfInvestment()->willReturn(3);
+
+        $this->addTransaction($walletTransaction1);
+        $this->addTransaction($walletTransaction2);
+        $this->addTransaction($walletTransaction3);
+
         $this->valueOfInvestment()->shouldBeFloat();
+        $this->valueOfInvestment()->shouldBe(6);
     }
 
-    function it_stores_bought_value()
+    function it_stores_bought_value(WalletTransaction $walletTransaction1, WalletTransaction $walletTransaction2, WalletTransaction $walletTransaction3)
     {
+        $walletTransaction1->boughtValue()->willReturn(1);
+        $walletTransaction2->boughtValue()->willReturn(2);
+        $walletTransaction3->boughtValue()->willReturn(3);
+
+        $this->addTransaction($walletTransaction1);
+        $this->addTransaction($walletTransaction2);
+        $this->addTransaction($walletTransaction3);
+
         $this->boughtValue()->shouldBeFloat();
+        $this->boughtValue()->shouldBe(6);
     }
 
     function it_calculates_profit()
