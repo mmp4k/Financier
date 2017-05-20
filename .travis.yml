@@ -9,3 +9,4 @@ before_script:
 script:
   - phpdbg -qrr ./vendor/bin/phpspec run
   - ./vendor/bin/behat
+  - ./vendor/bin/coveralls -x build/clover.xml
