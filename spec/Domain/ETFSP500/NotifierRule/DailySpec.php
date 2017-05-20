@@ -3,7 +3,7 @@
 namespace spec\Domain\ETFSP500\NotifierRule;
 
 use Domain\ETFSP500\NotifierRule\Daily;
-use Domain\NotifierRule;
+use Domain\Notifier\NotifierRule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

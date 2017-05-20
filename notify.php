@@ -13,7 +13,7 @@ $notifierSwiftmailer = new \Architecture\NotifierProvider\Swiftmailer(
         $config['notifier']['swiftmailer.user'],
         $config['notifier']['swiftmailer.pass'],
         $config['notifier']['swiftmailer.send_to']);
-$notifier = new \Domain\Notifier($notifierSwiftmailer);
+$notifier = new \Domain\Notifier\Notifier($notifierSwiftmailer);
 $notifier->collect(new \Domain\ETFSP500\LessThan($storage, 90, $businessDay));
 $notifier->collect(new \Domain\ETFSP500\LessThanAverage($storage, $businessDay));
 $notifier->collect(new \Domain\ETFSP500\NotifierRule\Daily());

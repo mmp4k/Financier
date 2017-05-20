@@ -2,8 +2,7 @@
 
 namespace Domain\ETFSP500;
 
-use Domain\NotifierRule;
-use spec\Domain\ETFSP500\BusinessDaySpec;
+use Domain\Notifier\NotifierRule;
 
 class LessThanAverage implements NotifierRule
 {

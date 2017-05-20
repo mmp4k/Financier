@@ -5,8 +5,8 @@ namespace Architecture\ETFSP500\NotifyHandler;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Domain\ETFSP500\Wallet;
-use Domain\NotifierRule;
-use Domain\NotifyHandler;
+use Domain\Notifier\NotifierRule;
+use Domain\Notifier\NotifyHandler;
 
 class Daily implements NotifyHandler
 {

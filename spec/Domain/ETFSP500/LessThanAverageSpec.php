@@ -5,7 +5,7 @@ namespace spec\Domain\ETFSP500;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\LessThanAverage;
 use Domain\ETFSP500\Storage;
-use Domain\NotifierRule;
+use Domain\Notifier\NotifierRule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

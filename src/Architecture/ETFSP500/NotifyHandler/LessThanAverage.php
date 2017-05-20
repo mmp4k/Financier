@@ -2,8 +2,8 @@
 
 namespace Architecture\ETFSP500\NotifyHandler;
 
-use Domain\NotifierRule;
-use Domain\NotifyHandler;
+use Domain\Notifier\NotifierRule;
+use Domain\Notifier\NotifyHandler;
 
 class LessThanAverage implements NotifyHandler
 {

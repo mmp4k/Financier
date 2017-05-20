@@ -2,7 +2,7 @@
 
 namespace Domain\ETFSP500;
 
-use Domain\NotifierRule;
+use Domain\Notifier\NotifierRule;
 
 class LessThan implements NotifierRule
 {

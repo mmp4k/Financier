@@ -2,13 +2,18 @@
 
 namespace Architecture\NotifierProvider;
 
-use Domain\NotifierProvider;
-use Domain\NotifierRule;
+use Domain\Notifier\NotifierProvider;
 
 class Swiftmailer implements NotifierProvider
 {
+    /**
+     * @var \Swift_Mailer
+     */
     private $mailer;
 
+    /**
+     * @var string
+     */
     private $from;
 
     /**

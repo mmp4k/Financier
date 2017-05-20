@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\App;
+namespace spec\Domain\Notifier;
 
-use Domain\Notifier;
-use Domain\NotifierProvider;
-use Domain\NotifierRule;
-use Domain\NotifyHandler;
+use Domain\Notifier\Notifier;
+use Domain\Notifier\NotifierProvider;
+use Domain\Notifier\NotifierRule;
+use Domain\Notifier\NotifyHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

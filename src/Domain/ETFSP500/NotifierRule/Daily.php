@@ -2,7 +2,7 @@
 
 namespace Domain\ETFSP500\NotifierRule;
 
-use Domain\NotifierRule;
+use Domain\Notifier\NotifierRule;
 
 class Daily implements NotifierRule
 {
