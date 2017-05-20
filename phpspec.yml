@@ -1,5 +1,6 @@
 extensions:
   LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
-    format: [text, clover]
+    format: [text, clover, html]
     output:
       clover: build/clover.xml
+      html: build/coverage
