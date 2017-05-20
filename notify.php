@@ -17,7 +17,7 @@ $notifier = new \Domain\Notifier\Notifier($notifierSwiftmailer);
 $notifier->collect(new \Domain\ETFSP500\NotifierRule\LessThan($storage, 90, $businessDay));
 $notifier->collect(new \Domain\ETFSP500\NotifierRule\LessThanAverage($storage, $businessDay));
 $notifier->collect(new \Domain\ETFSP500\NotifierRule\Daily());
-$notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\Daily($wallet, $storage));
+$notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\Daily($wallet, $storage, $businessDay));
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThan());
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThanAverage());
 $notifier->notify();

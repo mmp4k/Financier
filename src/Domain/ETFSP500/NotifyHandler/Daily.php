@@ -20,21 +20,25 @@ class Daily implements NotifyHandler
      */
     private $storage;
 
-    public function __construct(Wallet $wallet, Storage $storage)
+    /**
+     * @var BusinessDay
+     */
+    private $businessDay;
+
+    public function __construct(Wallet $wallet, Storage $storage, BusinessDay $businessDay)
     {
         $this->wallet = $wallet;
         $this->storage = $storage;
+        $this->businessDay = $businessDay;
     }
 
     public function prepareBody(NotifierRule $notifierRule)
     {
-        $businessDay = new BusinessDay(new \DateTime());
-
         $body = 'Bought assets: ' . $this->wallet->boughtAssets() . "\n";
         $body .= 'Value of assets: ' . $this->wallet->boughtValue() . "\n";
         $body .= 'Spent money: ' . $this->wallet->valueOfInvestment() . "\n";
-        $body .= 'Current value: ' . $this->wallet->currentValue($this->storage->getCurrentValue($businessDay), 5.0) . "\n";
-        $body .= 'Profit: ' . $this->wallet->profit($this->storage->getCurrentValue($businessDay), 5.0);
+        $body .= 'Current value: ' . $this->wallet->currentValue($this->storage->getCurrentValue($this->businessDay), 5.0) . "\n";
+        $body .= 'Profit: ' . $this->wallet->profit($this->storage->getCurrentValue($this->businessDay), 5.0);
 
         return $body;
     }
