@@ -8,7 +8,7 @@ $businessDay = new \Domain\ETFSP500\BusinessDay(new \DateTime());
 
 $storage = new \Architecture\ETFSP500\Storage\Doctrine($config['database']);
 
-$notifierSwiftmailer = new \Architecture\NotifierProvider\Swiftmailer(
+$notifierSwiftmailer = new \Architecture\Notifier\NotifierProvider\Swiftmailer(
         $config['notifier']['swiftmailer.host'],
         $config['notifier']['swiftmailer.user'],
         $config['notifier']['swiftmailer.pass'],

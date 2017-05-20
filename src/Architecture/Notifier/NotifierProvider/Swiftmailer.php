@@ -1,6 +1,6 @@
 <?php
 
-namespace Architecture\NotifierProvider;
+namespace Architecture\Notifier\NotifierProvider;
 
 use Domain\Notifier\NotifierProvider;
 
