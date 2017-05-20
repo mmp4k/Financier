@@ -18,4 +18,9 @@ class DailySpec extends ObjectBehavior
     {
         $this->shouldHaveType(Daily::class);
     }
+
+    function it_executes_always()
+    {
+        $this->notify()->shouldBe(true);
+    }
 }
