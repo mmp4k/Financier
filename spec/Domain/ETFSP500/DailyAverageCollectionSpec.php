@@ -18,4 +18,29 @@ class DailyAverageCollectionSpec extends ObjectBehavior
     {
         $this->add($dailyAverage);
     }
+
+    function it_returns_current(DailyAverage $dailyAverage)
+    {
+        $this->add($dailyAverage);
+        $this->current()->shouldBe($dailyAverage);
+    }
+
+    function it_increment_iterator(DailyAverage $dailyAverage)
+    {
+        $this->add($dailyAverage);
+        $this->next();
+        $this->key()->shouldBe(1);
+    }
+
+    function it_checks_next_value_exists()
+    {
+        $this->valid()->shouldBe(false);
+    }
+
+    function it_rewinds_iterator(DailyAverage $dailyAverage)
+    {
+        $this->add($dailyAverage);
+        $this->rewind();
+        $this->key()->shouldBe(0);
+    }
 }

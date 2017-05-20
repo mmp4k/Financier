@@ -30,4 +30,20 @@ class LessThanAverageSpec extends ObjectBehavior
         $storage->getCurrentValue($businessDay)->willReturn(65.01);
         $this->notify()->shouldBe(true);
     }
+
+    function it_gets_current_value(Storage $storage, BusinessDay $businessDay)
+    {
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getCurrentValue($businessDay)->willReturn(65.11);
+        $this->getCurrentValue()->shouldBe(65.11);
+    }
+
+    function it_gets_value_when_alert_is_open(Storage $storage, BusinessDay $businessDay)
+    {
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getAverageFromLastTenMonths()->willReturn(65.11);
+        $this->getAverageFromLastTenMonths()->shouldBe(65.11);
+    }
 }
