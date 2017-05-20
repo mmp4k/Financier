@@ -23,7 +23,7 @@ class LessThanAverage implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        if (get_class($notifierRule) === \Domain\ETFSP500\NotifierRule\LessThanAverage::class) {
+        if ($notifierRule instanceof \Domain\ETFSP500\NotifierRule\LessThanAverage) {
             return true;
         }
 

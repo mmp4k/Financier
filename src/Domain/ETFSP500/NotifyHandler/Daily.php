@@ -45,6 +45,6 @@ class Daily implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        return get_class($notifierRule) === \Domain\ETFSP500\NotifierRule\Daily::class;
+        return $notifierRule instanceof \Domain\ETFSP500\NotifierRule\Daily;
     }
 }
