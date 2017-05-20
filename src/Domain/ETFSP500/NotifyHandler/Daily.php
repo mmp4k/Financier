@@ -1,6 +1,6 @@
 <?php
 
-namespace Architecture\ETFSP500\NotifyHandler;
+namespace Domain\ETFSP500\NotifyHandler;
 
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
