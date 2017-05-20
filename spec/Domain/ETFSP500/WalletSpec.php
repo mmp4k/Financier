@@ -44,7 +44,7 @@ class WalletSpec extends ObjectBehavior
         $this->addTransaction($walletTransaction3);
 
         $this->valueOfInvestment()->shouldBeFloat();
-        $this->valueOfInvestment()->shouldBe(6);
+        $this->valueOfInvestment()->shouldBe(6.0);
     }
 
     function it_stores_bought_value(WalletTransaction $walletTransaction1, WalletTransaction $walletTransaction2, WalletTransaction $walletTransaction3)
@@ -58,7 +58,7 @@ class WalletSpec extends ObjectBehavior
         $this->addTransaction($walletTransaction3);
 
         $this->boughtValue()->shouldBeFloat();
-        $this->boughtValue()->shouldBe(6);
+        $this->boughtValue()->shouldBe(6.0);
     }
 
     function it_calculates_profit()
