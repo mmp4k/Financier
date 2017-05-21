@@ -2,6 +2,7 @@
 
 namespace Architecture\ETFSP500\PersisterStorage;
 
+use Doctrine\DBAL\Connection;
 use Domain\ETFSP500\DailyAverage;
 use Domain\ETFSP500\MonthlyAverage;
 use Architecture\ETFSP500\PersisterStorage;
@@ -10,12 +11,14 @@ use Doctrine\DBAL\DriverManager;
 
 class Doctrine implements PersisterStorage
 {
+    /**
+     * @var Connection
+     */
     private $connection;
 
-    public function __construct(array $connectionParams)
+    public function __construct(Connection $connection)
     {
-        $config = new Configuration();
-        $this->connection = DriverManager::getConnection($connectionParams, $config);
+        $this->connection = $connection;
     }
 
     public function persistMonthlyAverage(MonthlyAverage $monthlyAverage): void

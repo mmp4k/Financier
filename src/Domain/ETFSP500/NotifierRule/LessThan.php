@@ -5,8 +5,9 @@ namespace Domain\ETFSP500\NotifierRule;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Domain\Notifier\NotifierRule;
+use Domain\Notifier\PersistableNotifierRule;
 
-class LessThan implements NotifierRule
+class LessThan implements NotifierRule, PersistableNotifierRule
 {
     /**
      * @var Storage
@@ -46,5 +47,12 @@ class LessThan implements NotifierRule
     public function getCurrentValue()
     {
         return $this->storage->getCurrentValue($this->businessDay);
+    }
+
+    public function persistConfig(): array
+    {
+        return [
+            'minValue' => $this->getMinValue()
+        ];
     }
 }

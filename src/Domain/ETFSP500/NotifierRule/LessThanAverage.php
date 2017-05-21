@@ -5,8 +5,9 @@ namespace Domain\ETFSP500\NotifierRule;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Domain\Notifier\NotifierRule;
+use Domain\Notifier\PersistableNotifierRule;
 
-class LessThanAverage implements NotifierRule
+class LessThanAverage implements NotifierRule, PersistableNotifierRule
 {
     /**
      * @var Storage
@@ -41,5 +42,10 @@ class LessThanAverage implements NotifierRule
     public function getAverageFromLastTenMonths()
     {
         return $this->storage->getAverageFromLastTenMonths();
+    }
+
+    public function persistConfig(): array
+    {
+        return [];
     }
 }

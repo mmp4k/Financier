@@ -2,6 +2,7 @@
 
 namespace Architecture\ETFSP500\Storage;
 
+use Doctrine\DBAL\Connection;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Doctrine\DBAL\Configuration;
@@ -9,12 +10,14 @@ use Doctrine\DBAL\DriverManager;
 
 class Doctrine implements Storage
 {
+    /**
+     * @var Connection
+     */
     private $connection;
 
-    public function __construct(array $connectionParams)
+    public function __construct(Connection $connection)
     {
-        $config = new Configuration();
-        $this->connection = DriverManager::getConnection($connectionParams, $config);
+        $this->connection = $connection;
     }
 
     public function getCurrentValue(BusinessDay $businessDay): float
