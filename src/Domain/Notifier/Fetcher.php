@@ -19,6 +19,11 @@ class Fetcher
      */
     private $etfsp500Storage;
 
+    /**
+     * @var NotifierRuleFactory[]
+     */
+    private $factories = [];
+
     public function __construct(FetcherStorage $storage, ETFSP500Storage $etfsp500Storage)
     {
         $this->storage = $storage;
@@ -37,23 +42,20 @@ class Fetcher
         foreach ($arrayRules as $rule) {
             $options = $rule['options'];
 
-            switch($rule['class']) {
-                case 'Domain\ETFSP500\NotifierRule\LessThan':
-                    $ruleObj = new LessThan($this->etfsp500Storage, $options['minValue'], new BusinessDay(new \DateTime()));
-                    break;
-                case 'Domain\ETFSP500\NotifierRule\LessThanAverage':
-                    $ruleObj = new LessThanAverage($this->etfsp500Storage, new BusinessDay(new \DateTime()));
-                    break;
-                case 'Domain\ETFSP500\NotifierRule\Daily':
-                    $ruleObj = new Daily();
-                    break;
-                default:
-                    throw new \DomainException("Not defined creator for notifier rule.");
-                    break;
+            foreach ($this->factories as $factory) {
+                if (!$factory->support($rule['class'])) {
+                    continue;
+                }
+
+                $rules[] = $factory->create($options);
             }
-            $rules[] = $ruleObj;
         }
 
         return $rules;
+    }
+
+    public function addFactory(NotifierRuleFactory $factory)
+    {
+        $this->factories[] = $factory;
     }
 }
