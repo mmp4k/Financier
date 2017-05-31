@@ -24,16 +24,19 @@ $notifier = new \Domain\Notifier\Notifier($arrayProvider);
 
 $fetcherStorage = new Architecture\Notifier\FetcherStorage\Doctrine($connection);
 $fetcher = new \Domain\Notifier\Fetcher($fetcherStorage, $storage);
-$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\Daily());
+$fetcher->addFactory(new \Domain\Wallet\NotifierRule\Factory\Daily());
 $fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThan($storage, $businessDay));
 $fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThanAverage($storage, $businessDay));
 foreach ($fetcher->getNotifierRules() as $rule) {
     $notifier->collect($rule);
 }
 
-$notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\Daily($wallet, $storage, $businessDay));
+$notifier->addNotifyHandler(new \Domain\Wallet\NotifyHandler\Daily($wallet, $storage, $businessDay));
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThan());
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThanAverage());
 $notifier->notify();
 
+
+//$persister = new \Domain\Notifier\Persister(new Architecture\Notifier\PersisterStorage\Doctrine($connection));
+//$persister->persist(new \Domain\Wallet\NotifierRule\Daily());
 print_r($response->getBody());

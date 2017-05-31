@@ -5,7 +5,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 class ETFSP500WalletContext implements \Behat\Behat\Context\Context
 {
     /**
-     * @var \Domain\ETFSP500\Wallet
+     * @var \Domain\Wallet\Wallet
      */
     private $wallet;
 
@@ -24,7 +24,7 @@ class ETFSP500WalletContext implements \Behat\Behat\Context\Context
      */
     public function myETFSP500walletLooksLike(\Behat\Gherkin\Node\TableNode $table)
     {
-        $this->wallet = new \Domain\ETFSP500\Wallet();
+        $this->wallet = new \Domain\Wallet\Wallet();
 
         foreach ($table->getHash() as $row) {
             $date = DateTime::createFromFormat('d.m.Y', $row['Date of investment']);
@@ -33,7 +33,7 @@ class ETFSP500WalletContext implements \Behat\Behat\Context\Context
             $commissionIn = (float) $row['Commission in'];
 
 
-            $transaction = new \Domain\ETFSP500\WalletTransaction($date, $boughtAssets, $singlePrice, $commissionIn);
+            $transaction = new \Domain\Wallet\WalletTransaction($date, $boughtAssets, $singlePrice, $commissionIn);
             $this->wallet->addTransaction($transaction);
         }
     }

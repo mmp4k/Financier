@@ -2,19 +2,20 @@
 
 namespace Architecture\Notifier\PersisterStorage;
 
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Driver\Connection;
 use Domain\Notifier\PersistableNotifierRule;
 use Domain\Notifier\PersisterStorage;
 
 class Doctrine implements PersisterStorage
 {
+    /**
+     * @var Connection
+     */
     private $connection;
 
-    public function __construct(array $connectionParams)
+    public function __construct(Connection $connection)
     {
-        $config = new Configuration();
-        $this->connection = DriverManager::getConnection($connectionParams, $config);
+        $this->connection = $connection;
     }
 
     public function persist(PersistableNotifierRule $persistableNotifierRule)

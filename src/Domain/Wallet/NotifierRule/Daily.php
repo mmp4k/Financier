@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ETFSP500\NotifierRule;
+namespace Domain\Wallet\NotifierRule;
 
 use Domain\Notifier\NotifierRule;
 use Domain\Notifier\PersistableNotifierRule;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\ETFSP500\NotifyHandler;
+namespace Domain\Wallet\NotifyHandler;
 
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
-use Domain\ETFSP500\Wallet;
+use Domain\Wallet\Wallet;
 use Domain\Notifier\NotifierRule;
 use Domain\Notifier\NotifyHandler;
 
@@ -48,6 +48,6 @@ class Daily implements NotifyHandler
 
     public function isSupported(NotifierRule $notifierRule)
     {
-        return $notifierRule instanceof \Domain\ETFSP500\NotifierRule\Daily;
+        return $notifierRule instanceof \Domain\Wallet\NotifierRule\Daily;
     }
 }

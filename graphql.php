@@ -2,7 +2,6 @@
 
 namespace AppGraphQL;
 
-use App\AbcField;
 use App\CreateETFSP500LessThanNotificationField;
 use App\CurrentSharePriceField;
 use App\NotificationsField;
@@ -10,7 +9,7 @@ use Architecture\ETFSP500\Storage\Doctrine;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Domain\ETFSP500\BusinessDay;
-use Domain\ETFSP500\NotifierRule\Factory\Daily;
+use Domain\Wallet\NotifierRule\Factory\Daily;
 use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
 use Domain\ETFSP500\NotifierRule\LessThan;
 use Domain\Notifier\Fetcher;
@@ -30,7 +29,7 @@ $connection = DriverManager::getConnection($config['database'], new Configuratio
 
 $storage = new Doctrine($connection);
 $businessDay = new BusinessDay(new \DateTime());
-$persister = new Persister(new \Architecture\Notifier\PersisterStorage\Doctrine($config['database']));
+$persister = new Persister(new \Architecture\Notifier\PersisterStorage\Doctrine($connection));
 
 $currentSharePrice = new CurrentSharePriceField();
 $currentSharePrice->setStorage($storage);

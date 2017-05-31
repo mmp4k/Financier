@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Domain\ETFSP500\NotifierRule;
+namespace spec\Domain\Wallet\NotifierRule;
 
-use Domain\ETFSP500\NotifierRule\Daily;
+use Domain\Wallet\NotifierRule\Daily;
 use Domain\Notifier\NotifierRule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

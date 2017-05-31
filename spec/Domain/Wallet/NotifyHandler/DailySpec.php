@@ -5,7 +5,7 @@ namespace spec\Domain\ETFSP500\NotifyHandler;
 use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\NotifyHandler\Daily;
 use Domain\ETFSP500\Storage;
-use Domain\ETFSP500\Wallet;
+use Domain\Wallet\Wallet;
 use Domain\Notifier\NotifierRule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

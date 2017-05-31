@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\ETFSP500;
+namespace Domain\Wallet;
 
 class WalletTransaction
 {

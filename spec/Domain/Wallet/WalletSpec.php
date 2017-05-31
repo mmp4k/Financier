@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Domain\ETFSP500;
+namespace spec\Domain\Wallet;
 
-use Domain\ETFSP500\Wallet;
-use Domain\ETFSP500\WalletTransaction;
+use Domain\Wallet\Wallet;
+use Domain\Wallet\WalletTransaction;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
