@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Architecture\ETFSP500;
+namespace spec\Domain\ETFSP500;
 
-use Architecture\ETFSP500\Importer;
-use Architecture\ETFSP500\Source;
+use Domain\ETFSP500\Importer;
+use Domain\ETFSP500\Source;
 use Domain\ETFSP500\MonthlyAverageCollection;
 use Domain\ETFSP500\DailyAverageCollection;
 use PhpSpec\ObjectBehavior;

@@ -8,9 +8,9 @@ $config = include 'config.php';
 
 $connection = DriverManager::getConnection($config['database'], new Configuration());
 
-$importer = new \Architecture\ETFSP500\Importer(new \Architecture\ETFSP500\Source\Stooq());
+$importer = new \Domain\ETFSP500\Importer(new \Architecture\ETFSP500\Source\Stooq());
 
-$persister = new \Architecture\ETFSP500\Persister(new \Architecture\ETFSP500\PersisterStorage\Doctrine($connection));
+$persister = new \Domain\ETFSP500\Persister(new \Architecture\ETFSP500\PersisterStorage\Doctrine($connection));
 $persister->saveMonthlyAverage($importer->parseAverage());
 
 foreach ($importer->parseDaily() as $day) {

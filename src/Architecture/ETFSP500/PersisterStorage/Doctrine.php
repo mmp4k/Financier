@@ -5,9 +5,7 @@ namespace Architecture\ETFSP500\PersisterStorage;
 use Doctrine\DBAL\Connection;
 use Domain\ETFSP500\DailyAverage;
 use Domain\ETFSP500\MonthlyAverage;
-use Architecture\ETFSP500\PersisterStorage;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
+use Domain\ETFSP500\PersisterStorage;
 
 class Doctrine implements PersisterStorage
 {

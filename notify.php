@@ -31,18 +31,9 @@ foreach ($fetcher->getNotifierRules() as $rule) {
     $notifier->collect($rule);
 }
 
-//$notifier->collect($n1 = new \Domain\ETFSP500\NotifierRule\LessThan($storage, 90, $businessDay));
-//$notifier->collect($n2 = new \Domain\ETFSP500\NotifierRule\LessThanAverage($storage, $businessDay));
-//$notifier->collect($n3 = new \Domain\ETFSP500\NotifierRule\Daily());
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\Daily($wallet, $storage, $businessDay));
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThan());
 $notifier->addNotifyHandler(new \Domain\ETFSP500\NotifyHandler\LessThanAverage());
 $notifier->notify();
 
 print_r($response->getBody());
-/*
-$persister = new \Domain\Notifier\Persister(new Architecture\Notifier\PersisterStorage\Doctrine($config['database']));
-$persister->persist($n1);
-$persister->persist($n2);
-$persister->persist($n3);
-*/

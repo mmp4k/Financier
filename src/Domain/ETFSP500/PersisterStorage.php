@@ -1,9 +1,6 @@
 <?php
 
-namespace Architecture\ETFSP500;
-
-use Domain\ETFSP500\DailyAverage;
-use Domain\ETFSP500\MonthlyAverage;
+namespace Domain\ETFSP500;
 
 interface PersisterStorage
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Architecture\ETFSP500;
+namespace spec\Domain\ETFSP500;
 
 use Domain\ETFSP500\MonthlyAverage;
 use Domain\ETFSP500\DailyAverage;
 use Domain\ETFSP500\MonthlyAverageCollection;
-use Architecture\ETFSP500\Persister;
-use Architecture\ETFSP500\PersisterStorage;
+use Domain\ETFSP500\Persister;
+use Domain\ETFSP500\PersisterStorage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

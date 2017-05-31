@@ -1,9 +1,6 @@
 <?php
 
-namespace Architecture\ETFSP500;
-
-use Domain\ETFSP500\DailyAverage;
-use Domain\ETFSP500\MonthlyAverageCollection;
+namespace Domain\ETFSP500;
 
 class Persister
 {
