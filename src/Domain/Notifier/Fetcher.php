@@ -2,10 +2,6 @@
 
 namespace Domain\Notifier;
 
-use Domain\ETFSP500\BusinessDay;
-use Domain\ETFSP500\NotifierRule\Daily;
-use Domain\ETFSP500\NotifierRule\LessThan;
-use Domain\ETFSP500\NotifierRule\LessThanAverage;
 use Domain\ETFSP500\Storage as ETFSP500Storage;
 
 class Fetcher

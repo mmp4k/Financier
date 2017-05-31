@@ -34,10 +34,13 @@ class Daily implements NotifyHandler
 
     public function prepareBody(NotifierRule $notifierRule)
     {
+        $currentValue = $this->wallet->currentValue($this->storage->getCurrentValue($this->businessDay), 5.0);
+
         $body = 'Bought assets: ' . $this->wallet->boughtAssets() . "\n";
-        $body .= 'Value of assets: ' . $this->wallet->boughtValue() . "\n";
-        $body .= 'Spent money: ' . $this->wallet->valueOfInvestment() . "\n";
-        $body .= 'Current value: ' . $this->wallet->currentValue($this->storage->getCurrentValue($this->businessDay), 5.0) . "\n";
+        $body .= 'Value of assets: ' . $this->wallet->boughtValue() . " PLN \n";
+        $body .= 'Spent money: ' . $this->wallet->valueOfInvestment() . " PLN \n";
+        $body .= 'Current value: ' . $currentValue;
+        $body .= ' PLN (' . ($currentValue - $this->wallet->valueOfInvestment()) . ' PLN)'. "\n";
         $body .= 'Profit: ' . $this->wallet->profit($this->storage->getCurrentValue($this->businessDay), 5.0);
 
         return $body;

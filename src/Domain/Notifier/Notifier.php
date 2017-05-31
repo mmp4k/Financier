@@ -18,6 +18,11 @@ class Notifier
      */
     private $notifyHandlers = [];
 
+    /**
+     * @var NotifyChecker[]
+     */
+    private $checkers;
+
     public function __construct(NotifierProvider $notifierProvider)
     {
         $this->notifierProvider = $notifierProvider;
@@ -63,5 +68,10 @@ class Notifier
     public function addNotifyHandler(NotifyHandler $notifyHandler)
     {
         $this->notifyHandlers[] = $notifyHandler;
+    }
+
+    public function addChecker(NotifyChecker $checker)
+    {
+        $this->checkers[] = $checker;
     }
 }

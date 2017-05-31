@@ -9,6 +9,8 @@ use Domain\Notifier\PersistableNotifierRule;
 
 class LessThan implements NotifierRule, PersistableNotifierRule
 {
+    const CONFIG_MIN_VALUE = 'minValue';
+
     /**
      * @var Storage
      */
@@ -52,7 +54,7 @@ class LessThan implements NotifierRule, PersistableNotifierRule
     public function persistConfig(): array
     {
         return [
-            'minValue' => $this->getMinValue()
+            self::CONFIG_MIN_VALUE => $this->getMinValue()
         ];
     }
 }

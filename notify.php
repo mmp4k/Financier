@@ -24,6 +24,9 @@ $notifier = new \Domain\Notifier\Notifier($arrayProvider);
 
 $fetcherStorage = new Architecture\Notifier\FetcherStorage\Doctrine($connection);
 $fetcher = new \Domain\Notifier\Fetcher($fetcherStorage, $storage);
+$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\Daily());
+$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThan($storage, $businessDay));
+$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThanAverage($storage, $businessDay));
 foreach ($fetcher->getNotifierRules() as $rule) {
     $notifier->collect($rule);
 }

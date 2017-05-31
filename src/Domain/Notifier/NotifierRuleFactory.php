@@ -6,5 +6,5 @@ interface NotifierRuleFactory
 {
     public function support(string $class);
 
-    public function create($argument1);
+    public function create(array $options) : NotifierRule;
 }
