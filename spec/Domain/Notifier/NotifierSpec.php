@@ -6,7 +6,6 @@ use Domain\Notifier\Notifier;
 use Domain\Notifier\NotifierProvider;
 use Domain\Notifier\NotifierRule;
 use Domain\Notifier\NotifyHandler;
-use Domain\Notifier\NotifyChecker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -66,24 +65,6 @@ class NotifierSpec extends ObjectBehavior
 
         $this->addNotifyHandler($notifyHandler);
         $this->collect($notifierRule);
-
-        $this->notify();
-    }
-
-    function it_collects_notify_checker(NotifyChecker $checker)
-    {
-        $this->addChecker($checker);
-    }
-
-    function it_executes_checked_when_send_notify(NotifierRule $rule, NotifyHandler $notifyHandler, NotifyChecker $checker)
-    {
-        $rule->notify()->willReturn(true);
-
-        $checker->check($rule)->shouldBeCalled();
-
-        $this->collect($rule);
-        $this->addNotifyHandler($notifyHandler);
-        $this->addChecker($checker);
 
         $this->notify();
     }
