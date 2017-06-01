@@ -2,6 +2,7 @@
 
 namespace spec\Domain\Wallet;
 
+use Domain\Wallet\Asset;
 use Domain\Wallet\Wallet;
 use Domain\Wallet\WalletTransaction;
 use PhpSpec\ObjectBehavior;
@@ -61,13 +62,15 @@ class WalletSpec extends ObjectBehavior
         $this->boughtValue()->shouldBe(6.0);
     }
 
-    function it_calculates_profit()
+    function it_calculates_profit(WalletTransaction $transaction1, WalletTransaction $transaction2)
     {
         $currentPrice = 20.0;
         $commissionOut = 5.0;
 
-        $transaction1 = new WalletTransaction(new \DateTime(), 5, 15, 5);
-        $transaction2 = new WalletTransaction(new \DateTime(), 5, 15, 5);
+        $transaction1->boughtValue()->willReturn(5*15);
+        $transaction2->boughtValue()->willReturn(5*15);
+        $transaction1->currentValue(20, 2.5)->willReturn(92.5);
+        $transaction2->currentValue(20, 2.5)->willReturn(92.5);
 
         $this->addTransaction($transaction1);
         $this->addTransaction($transaction2);
@@ -76,13 +79,13 @@ class WalletSpec extends ObjectBehavior
         $this->profit($currentPrice, $commissionOut)->shouldBeApproximately(1.2333, 0.0001);
     }
 
-    function it_calculate_current_value()
+    function it_calculate_current_value(WalletTransaction $transaction1, WalletTransaction $transaction2)
     {
         $currentPrice = 20.0;
         $commissionOut = 5.0;
 
-        $transaction1 = new WalletTransaction(new \DateTime(), 5, 15, 5);
-        $transaction2 = new WalletTransaction(new \DateTime(), 5, 15, 5);
+        $transaction1->currentValue(20, 2.5)->willReturn(92.5);
+        $transaction2->currentValue(20, 2.5)->willReturn(92.5);
 
         $this->addTransaction($transaction1);
         $this->addTransaction($transaction2);

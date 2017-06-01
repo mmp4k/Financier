@@ -3,17 +3,18 @@
 namespace spec\Domain\Wallet;
 
 use Domain\Wallet\WalletTransaction;
+use Domain\Wallet\Asset;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class WalletTransactionSpec extends ObjectBehavior
 {
-    function let()
+    function let(Asset $asset)
     {
         $numberOfAssets = 5;
         $priceOfAsset = 15;
         $commissionIn = 5;
-        $this->beConstructedWith(new \DateTime(), $numberOfAssets, $priceOfAsset, $commissionIn);
+        $this->beConstructedWith($asset, new \DateTime(), $numberOfAssets, $priceOfAsset, $commissionIn);
     }
 
     function it_is_initializable()
@@ -24,6 +25,13 @@ class WalletTransactionSpec extends ObjectBehavior
     function it_has_date()
     {
         $this->date()->shouldBeAnInstanceOf(\DateTime::class);
+    }
+
+    function it_stores_asset_name(Asset $asset)
+    {
+        $asset->getName()->shouldBeCalled();
+        $asset->getName()->willReturn('ETFSP500');
+        $this->assetName()->shouldBe('ETFSP500');
     }
 
     function it_has_assets()

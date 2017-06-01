@@ -2,7 +2,7 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 
-class ETFSP500WalletContext implements \Behat\Behat\Context\Context
+class WalletContext implements \Behat\Behat\Context\Context
 {
     /**
      * @var \Domain\Wallet\Wallet
@@ -33,7 +33,7 @@ class ETFSP500WalletContext implements \Behat\Behat\Context\Context
             $commissionIn = (float) $row['Commission in'];
 
 
-            $transaction = new \Domain\Wallet\WalletTransaction($date, $boughtAssets, $singlePrice, $commissionIn);
+            $transaction = new \Domain\Wallet\WalletTransaction(new \Domain\ETFSP500\ETFSP500(), $date, $boughtAssets, $singlePrice, $commissionIn);
             $this->wallet->addTransaction($transaction);
         }
     }

@@ -5,7 +5,7 @@ $commissionOut = 5.0;
 
 include_once 'vendor/autoload.php';
 
-/** @var \Domain\ETFSP500\Wallet $wallet */
+/** @var \Domain\Wallet\Wallet $wallet */
 $wallet = include 'transactions.php';
 
 foreach ($wallet->getTransactions() as $i => $transaction) {

@@ -21,12 +21,18 @@ class WalletTransaction
      */
     private $commissionIn;
 
-    public function __construct(\DateTime $dateTransaction, int $boughtAssets, float $priceSingleAsset, float $commissionIn)
+    /**
+     * @var Asset
+     */
+    private $asset;
+
+    public function __construct(Asset $asset, \DateTime $dateTransaction, int $boughtAssets, float $priceSingleAsset, float $commissionIn)
     {
         $this->dateTransaction = $dateTransaction;
         $this->boughtAssets = $boughtAssets;
         $this->priceSingleAsset = $priceSingleAsset;
         $this->commissionIn = $commissionIn;
+        $this->asset = $asset;
     }
 
     public function date() : \DateTime
@@ -69,5 +75,10 @@ class WalletTransaction
     public function currentValue(float $currentPriceOfSingleAsset, float $commissionOut) : float
     {
         return $this->assets() * $currentPriceOfSingleAsset - $commissionOut - $this->commissionIn();
+    }
+
+    public function assetName()
+    {
+        return $this->asset->getName();
     }
 }
