@@ -22,8 +22,15 @@ class Doctrine implements PersisterStorage
     {
         $qb = $this->connection->createQueryBuilder();
 
-        $id = $qb->insert('users')
-            ->setValue('identify', $user->identifier())
+        $id = $qb->insert('user')
+            ->values([
+                'uuid' => ':uuid',
+                'identify' => ':identify'
+            ])
+            ->setParameters([
+                ':uuid' => $user->id()->getBytes(),
+                ':identify' => $user->identifier(),
+            ])
             ->execute();
 
         return $id;

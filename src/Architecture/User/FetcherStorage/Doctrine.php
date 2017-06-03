@@ -22,7 +22,7 @@ class Doctrine implements FetcherStorage
         $qb = $this->connection->createQueryBuilder();
 
         $row = $qb->from('user')
-            ->select('identify, id')
+            ->select('identify, uuid')
             ->where('identify = :identify')
             ->setParameter(':identify', $identify)
             ->execute()
