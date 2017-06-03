@@ -15,6 +15,11 @@ class WalletSpec extends ObjectBehavior
         $this->shouldHaveType(Wallet::class);
     }
 
+    function it_has_unique_id()
+    {
+        $this->id()->shouldNotBeNull();
+    }
+
     function it_collects_assets(WalletTransaction $asset)
     {
         $this->addTransaction($asset);

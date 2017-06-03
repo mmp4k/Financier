@@ -2,6 +2,9 @@
 
 namespace Domain\Wallet;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
 class WalletTransaction
 {
     /**
@@ -26,6 +29,11 @@ class WalletTransaction
      */
     private $asset;
 
+    /**
+     * @var UuidInterface
+     */
+    private $uuid;
+
     public function __construct(Asset $asset, \DateTime $dateTransaction, int $boughtAssets, float $priceSingleAsset, float $commissionIn)
     {
         $this->dateTransaction = $dateTransaction;
@@ -33,6 +41,7 @@ class WalletTransaction
         $this->priceSingleAsset = $priceSingleAsset;
         $this->commissionIn = $commissionIn;
         $this->asset = $asset;
+        $this->uuid = Uuid::uuid4();
     }
 
     public function date() : \DateTime
@@ -80,5 +89,22 @@ class WalletTransaction
     public function assetName()
     {
         return $this->asset->getName();
+    }
+
+    public function id()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     *
+     * @return $this
+     */
+    public function setUuid(UuidInterface $uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 }

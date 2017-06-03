@@ -2,12 +2,34 @@
 
 namespace Domain\Wallet;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
 class Wallet
 {
     /**
      * @var WalletTransaction[]
      */
     protected $transactions = [];
+
+    /**
+     * @var UuidInterface
+     */
+    private $uuid;
+
+    public function __construct()
+    {
+        $this->transactions = [];
+        $this->uuid = Uuid::uuid4();
+    }
+
+    static public function createFromUuid(UuidInterface $uuid)
+    {
+        $wallet = new Wallet();
+        $wallet->setUuid($uuid);
+
+        return $wallet;
+    }
 
     public function boughtAssets() : int
     {
@@ -69,8 +91,15 @@ class Wallet
         return $values;
     }
 
-    public function getTransactions()
+    /**
+     * @return array|WalletTransaction[]
+     */
+    public function getTransactions() : array
     {
+        if (empty($this->transactions)) {
+            return [];
+        }
+
         $sortedTransactions = $this->transactions; // copy to usort, usort uses reference
 
         usort($sortedTransactions, function($a, $b) {
@@ -80,5 +109,22 @@ class Wallet
         });
 
         return $sortedTransactions;
+    }
+
+    public function id()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     *
+     * @return $this
+     */
+    public function setUuid(UuidInterface $uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 }

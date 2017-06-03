@@ -22,6 +22,11 @@ class WalletTransactionSpec extends ObjectBehavior
         $this->shouldHaveType(WalletTransaction::class);
     }
 
+    function it_has_unique_id()
+    {
+        $this->id()->shouldNotBeNull();
+    }
+
     function it_has_date()
     {
         $this->date()->shouldBeAnInstanceOf(\DateTime::class);
