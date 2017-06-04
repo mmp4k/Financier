@@ -8,6 +8,7 @@ use Domain\User\User;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Subject;
 use Prophecy\Argument;
+use Ramsey\Uuid\Uuid;
 
 class FetcherSpec extends ObjectBehavior
 {
@@ -26,7 +27,7 @@ class FetcherSpec extends ObjectBehavior
         $fetcherStorage->findUserByIdentify('random@email.pl')->shouldBeCalled();
         $fetcherStorage->findUserByIdentify('random@email.pl')->willReturn([
             'identify' => 'random@email.pl',
-            'id' => '5',
+            'uuid' => Uuid::uuid4()->getBytes(),
         ]);
 
         /** @var User|Subject $user */
@@ -40,7 +41,7 @@ class FetcherSpec extends ObjectBehavior
     {
         $fetcherStorage->findUserByIdentify('random@email.pl')->willReturn([
             'identify' => 'random@email.pl',
-            'id' => '5',
+            'uuid' => Uuid::uuid4()->getBytes(),
         ]);
         $user->identifier()->willReturn('random@email.pl');
 

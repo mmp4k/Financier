@@ -28,8 +28,8 @@ class UserWalletFinderSpec extends ObjectBehavior
 
     function it_finds_user_wallets(UserResourceFinder $userResourceFinder, Fetcher $walletFetcher, User $user, UuidInterface $idResource)
     {
-        $userResourceFinder->findByTypeAndUser(Wallet::class, $user)->shouldBeCalled();
-        $userResourceFinder->findByTypeAndUser(Wallet::class, $user)->willReturn([$idResource]);
+        $userResourceFinder->findByTypeAndUser(UserWallet::class, $user)->shouldBeCalled();
+        $userResourceFinder->findByTypeAndUser(UserWallet::class, $user)->willReturn([$idResource]);
         $walletFetcher->findWallet($idResource)->shouldBeCalled();
 
         $wallets = $this->findWallets($user);
@@ -44,7 +44,7 @@ class UserWalletFinderSpec extends ObjectBehavior
         $wallet->id()->willReturn($uuid);
         $wallet->id()->shouldBeCalled();
 
-        $userResourceFinder->findByTypeAndResource(Wallet::class, $uuid)->shouldBeCalled();
+        $userResourceFinder->findByTypeAndResource(UserWallet::class, $uuid)->shouldBeCalled();
 
         $this->findUser($wallet)->shouldBeAnInstanceOf(User::class);
     }
