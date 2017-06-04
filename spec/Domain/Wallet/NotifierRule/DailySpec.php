@@ -23,4 +23,9 @@ class DailySpec extends ObjectBehavior
     {
         $this->notify()->shouldBe(true);
     }
+
+    function it_has_empty_config()
+    {
+        $this->persistConfig()->shouldBe([]);
+    }
 }

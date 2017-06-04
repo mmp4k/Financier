@@ -19,6 +19,11 @@ class LessThanSpec extends ObjectBehavior
         $this->isSupported($lessThan)->shouldBe(true);
     }
 
+    function it_does_not_support_other_rules(NotifierRule $notifierRule)
+    {
+        $this->isSupported($notifierRule)->shouldBe(false);
+    }
+
     function it_prepares_body_for_notify(\Domain\ETFSP500\NotifierRule\LessThan $notifierRule)
     {
         $notifierRule->getCurrentValue()->willReturn(5);

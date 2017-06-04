@@ -6,6 +6,7 @@ use Domain\Wallet\WalletTransaction;
 use Domain\Wallet\Asset;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Ramsey\Uuid\UuidInterface;
 
 class WalletTransactionSpec extends ObjectBehavior
 {
@@ -77,5 +78,10 @@ class WalletTransactionSpec extends ObjectBehavior
     function it_has_bought_value()
     {
         $this->boughtValue()->shouldBeFloat();
+    }
+
+    function it_sets_uuid(UuidInterface $uuid)
+    {
+        $this->setUuid($uuid);
     }
 }

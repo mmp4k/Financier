@@ -62,9 +62,6 @@ class Doctrine implements FinderStorage
             ->setParameter(':user', $user->id()->getBytes())
             ->execute()
             ->fetchAll();
-        echo "\n\n\n";
-        echo $user->id()->getHex() . "\n";
-        echo $qb->getSQL();
 
         $uuids = [];
 

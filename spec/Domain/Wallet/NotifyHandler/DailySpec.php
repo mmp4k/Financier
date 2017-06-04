@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Domain\ETFSP500\NotifyHandler;
+namespace spec\Domain\Wallet\NotifyHandler;
 
 use Domain\ETFSP500\BusinessDay;
-use Domain\ETFSP500\NotifyHandler\Daily;
+use Domain\Wallet\NotifyHandler\Daily;
 use Domain\ETFSP500\Storage;
 use Domain\Wallet\Wallet;
 use Domain\Notifier\NotifierRule;
@@ -22,7 +22,7 @@ class DailySpec extends ObjectBehavior
         $this->shouldHaveType(Daily::class);
     }
 
-    function it_supports_daily_rule(\Domain\ETFSP500\NotifierRule\Daily $daily)
+    function it_supports_daily_rule(\Domain\Wallet\NotifierRule\Daily $daily)
     {
         $this->isSupported($daily)->shouldBe(true);
     }

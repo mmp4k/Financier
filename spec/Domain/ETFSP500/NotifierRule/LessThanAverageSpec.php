@@ -31,6 +31,15 @@ class LessThanAverageSpec extends ObjectBehavior
         $this->notify()->shouldBe(true);
     }
 
+    function it_does_not_notify_when_current_value_is_bigger(Storage $storage, BusinessDay $businessDay)
+    {
+        $businessDay->isBusinessDay()->willReturn(true);
+
+        $storage->getAverageFromLastTenMonths()->willReturn(65.01);
+        $storage->getCurrentValue($businessDay)->willReturn(65.02);
+        $this->notify()->shouldBe(false);
+    }
+
     function it_gets_current_value(Storage $storage, BusinessDay $businessDay)
     {
         $businessDay->isBusinessDay()->willReturn(true);
@@ -45,5 +54,10 @@ class LessThanAverageSpec extends ObjectBehavior
 
         $storage->getAverageFromLastTenMonths()->willReturn(65.11);
         $this->getAverageFromLastTenMonths()->shouldBe(65.11);
+    }
+
+    function it_has_empty_config()
+    {
+        $this->persistConfig()->shouldBe([]);
     }
 }

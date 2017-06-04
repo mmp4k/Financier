@@ -7,6 +7,7 @@ use Domain\Wallet\Wallet;
 use Domain\Wallet\WalletTransaction;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Ramsey\Uuid\UuidInterface;
 
 class WalletSpec extends ObjectBehavior
 {
@@ -114,5 +115,16 @@ class WalletSpec extends ObjectBehavior
         $this->addTransaction($walletTransaction3);
 
         $this->getTransactions()->shouldBe([$walletTransaction3, $walletTransaction1, $walletTransaction2]);
+    }
+
+    function it_can_be_created_by_uuid(UuidInterface $uuid)
+    {
+        $this->beConstructedThrough('createFromUuid', [$uuid]);
+        $this->id()->shouldBe($uuid);
+    }
+
+    function it_return_empty_array_when_not_transactions()
+    {
+        $this->getTransactions()->shouldBe([]);
     }
 }

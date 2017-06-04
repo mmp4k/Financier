@@ -5,10 +5,13 @@ namespace AppGraphQL;
 use App\CreateETFSP500LessThanNotificationField;
 use App\CurrentSharePriceField;
 use App\NotificationsField;
+use App\UserField;
 use Architecture\ETFSP500\Storage\Doctrine;
+use Architecture\Wallet\UserResource\UserWalletFinder;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Domain\ETFSP500\BusinessDay;
+use Domain\User\UserResourceFinder;
 use Domain\Wallet\NotifierRule\Factory\Daily;
 use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
 use Domain\ETFSP500\NotifierRule\LessThan;
@@ -42,6 +45,12 @@ $fetcher->addFactory(new Daily());
 $fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThan($storage, $businessDay));
 $fetcher->addFactory(new LessThanAverage($storage, $businessDay));
 
+$userField = new UserField(
+    new \Domain\User\Fetcher(new \Architecture\User\FetcherStorage\Doctrine($connection)),
+    new UserWalletFinder(
+        new UserResourceFinder(new \Architecture\User\FinderStorage\Doctrine($connection)),
+        new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection))));
+
 $processor = new Processor(new Schema([
     'mutation' => new ObjectType([
         'name' => 'RootMutationType',
@@ -61,6 +70,7 @@ $processor = new Processor(new Schema([
     'query' => new ObjectType([
         'name' => 'RootQueryType',
         'fields' => [
+            $userField,
             $notifications,
             $currentSharePrice,
             'averageSharePriceFromLastTenMonths' => [

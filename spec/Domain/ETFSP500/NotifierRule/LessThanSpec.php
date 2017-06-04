@@ -58,4 +58,11 @@ class LessThanSpec extends ObjectBehavior
         $storage->getCurrentValue($businessDay)->willReturn(65.11);
         $this->getCurrentValue()->shouldBe(65.11);
     }
+
+    function it_stores_min_value_in_config()
+    {
+        $this->persistConfig()->shouldBe([
+            'minValue' => 65.1,
+        ]);
+    }
 }
