@@ -8,5 +8,5 @@ before_script:
   - phpenv config-rm xdebug.ini
 script:
   - phpdbg -qrr ./vendor/bin/phpspec run
-  - ./vendor/bin/behat
+#  - ./vendor/bin/behat
   - ./vendor/bin/coveralls -x build/clover.xml
