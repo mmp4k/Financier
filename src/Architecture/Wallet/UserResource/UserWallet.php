@@ -28,7 +28,7 @@ class UserWallet implements UserResource
     public function __construct(Wallet $wallet, User $user)
     {
         $this->wallet = $wallet;
-        $this->id = Uuid::uuid4();
+        $this->id = $wallet->id();
         $this->user = $user;
     }
 
@@ -45,5 +45,20 @@ class UserWallet implements UserResource
     public function user(): User
     {
         return $this->user;
+    }
+
+    public function getTransactions()
+    {
+        return $this->wallet->getTransactions();
+    }
+
+    public function profit(float $currentPriceOfSingleAsset, float $commissionOut)
+    {
+        return $this->wallet->profit($currentPriceOfSingleAsset, $commissionOut);
+    }
+
+    public function currentValue(float $currentPriceOfSingleAsset, float $commissionOut) : float
+    {
+        return $this->wallet->currentValue($currentPriceOfSingleAsset, $commissionOut);
     }
 }

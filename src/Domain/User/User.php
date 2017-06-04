@@ -35,4 +35,16 @@ class User
     {
         return $this->id;
     }
+
+    /**
+     * @param UuidInterface $id
+     *
+     * @return $this
+     */
+    public function setId(UuidInterface $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }

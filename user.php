@@ -4,6 +4,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
 include_once 'vendor/autoload.php';
+$wallet = include 'transactions.php';
 
 $config = include 'config.php';
 
@@ -18,11 +19,21 @@ $user = $fetcherUser->findUserByIdentify('m@pilsniak.com');
 
 var_dump($user);
 
+$walletPersister = new \Domain\Wallet\Persister(new \Architecture\Wallet\PersisterStorage\Doctrine($connection));
+$walletPersister->persist($wallet);
+
+$assigner = new \Domain\User\Assigner(new \Architecture\User\AssignerStorage\Doctrine($connection));
+$userWallet = new \Architecture\Wallet\UserResource\UserWallet($wallet, $user);
+$assigner->assign($userWallet);
+
+/*
+
 $fetcherWallet = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
 
 $wallet = $fetcherWallet->findWallet(\Ramsey\Uuid\Uuid::fromString('069fb553-6c89-452d-a601-2f51375506be'));
 
 $userWallet = new \Architecture\Wallet\UserResource\UserWallet($wallet, $user);
 
-$assigner = new \Domain\User\Assigner(new \Architecture\User\AssignerStorage\Doctrine($connection));
-$assigner->assign($userWallet);
+//$assigner = new \Domain\User\Assigner(new \Architecture\User\AssignerStorage\Doctrine($connection));
+//$assigner->assign($userWallet);
+*/

@@ -2,6 +2,8 @@
 
 namespace Domain\User;
 
+use Ramsey\Uuid\Uuid;
+
 class Fetcher
 {
     /**
@@ -18,6 +20,7 @@ class Fetcher
     {
         $row = $this->fetcherStorage->findUserByIdentify($identify);
         $user = new User($row['identify']);
+        $user->setId(Uuid::fromBytes($row['uuid']));
 
         return $user;
     }

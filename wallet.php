@@ -16,10 +16,20 @@ $connection = DriverManager::getConnection($config['database'], new Configuratio
 //$persister = new \Domain\Wallet\Persister(new Architecture\Wallet\PersisterStorage\Doctrine($connection));
 //$persister->persist($wallet);
 
-$fetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
+$userFetcher = new \Domain\User\Fetcher(new \Architecture\User\FetcherStorage\Doctrine($connection));
+$user = $userFetcher->findUserByIdentify('m@pilsniak.com');
+
+$userWalletFinder = new \Architecture\Wallet\UserResource\UserWalletFinder(
+    new \Domain\User\UserResourceFinder(new \Architecture\User\FinderStorage\Doctrine($connection)),
+    new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection)));
+$wallets = $userWalletFinder->findWallets($user);
+var_dump($wallets);
+$wallet = $wallets[0];
+
+//$fetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
 
 //$wallet = $fetcher->findWallets()[0];
-$wallet = $fetcher->findWallet(\Ramsey\Uuid\Uuid::fromString('069fb553-6c89-452d-a601-2f51375506be'));
+//$wallet = $fetcher->findWallet(\Ramsey\Uuid\Uuid::fromString('069fb553-6c89-452d-a601-2f51375506be'));
 
 foreach ($wallet->getTransactions() as $i => $transaction) {
     $numTransaction = $i+1;
