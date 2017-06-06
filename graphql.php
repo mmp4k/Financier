@@ -51,6 +51,8 @@ $userField = new UserField(
         new UserResourceFinder(new \Architecture\User\FinderStorage\Doctrine($connection)),
         new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection))));
 
+
+
 $processor = new Processor(new Schema([
     'mutation' => new ObjectType([
         'name' => 'RootMutationType',

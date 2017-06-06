@@ -17,6 +17,7 @@ class UserField extends AbstractField
      * @var Fetcher
      */
     private $userFetcher;
+
     /**
      * @var UserWalletFinder
      */
@@ -24,10 +25,10 @@ class UserField extends AbstractField
 
     public function __construct(Fetcher $userFetcher, UserWalletFinder $userWalletFinder)
     {
-        parent::__construct([]);
-        $this->userFetcher = $userFetcher;
-        $this->addArgument('identify', new NonNullType(new StringType()));
         $this->userWalletFinder = $userWalletFinder;
+        $this->userFetcher = $userFetcher;
+        parent::__construct([]);
+        $this->addArgument('identify', new NonNullType(new StringType()));
     }
 
     /**
@@ -35,26 +36,13 @@ class UserField extends AbstractField
      */
     public function getType()
     {
-        return new UserType();
+        return new UserType($this->userWalletFinder);
     }
 
     public function resolve($value, array $args, ResolveInfo $info)
     {
         $user = $this->userFetcher->findUserByIdentify($args['identify']);
-        $wallets = [];
 
-        $currentValue = '100';
-
-        foreach ($this->userWalletFinder->findWallets($user) as $wallet) {
-            $wallets[] = [
-                'profit' => $wallet->profit($currentValue, 5.0)
-            ];
-        }
-
-        return [
-            'identify' => $user->identifier(),
-            'uuid' => $user->id()->toString(),
-            'wallets' => $wallets,
-        ];
+        return $user;
     }
 }
