@@ -45,23 +45,7 @@ class WalletNewType extends ObjectType
                         }
                     ],
                     'transactions' => [
-                        'type' => Type::listOf(new ObjectType([
-                            'name' => 'transaction',
-                            'fields' => [
-                                'date' => [
-                                    'type' => Type::string(),
-                                    'resolve' => function(WalletTransaction $transaction) {
-                                        return $transaction->date()->format('d.m.Y');
-                                    }
-                                ],
-                                'name' => [
-                                    'type' => Type::string(),
-                                    'resolve' => function(WalletTransaction $transaction) {
-                                        return $transaction->assetName();
-                                    }
-                                ]
-                            ]
-                        ])),
+                        'type' => Type::listOf(TransactionType::instance()),
                         'resolve' => function(UserWallet $wallet) {
                             return $wallet->getTransactions();
                         }

@@ -3,8 +3,10 @@
 namespace AppGraphQL;
 
 use App\QueryType;
+use App\Resolver\TransactionTypeResolver;
 use App\Resolver\UserNewTypeResolver;
 use App\Resolver\WalletNewTypeResolver;
+use App\TransactionType;
 use App\Types;
 use App\UserNewType;
 use App\WalletNewType;
@@ -41,6 +43,8 @@ try {
     $walletFetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
 
     WalletNewType::instance(new WalletNewTypeResolver($etfSP500, $walletFetcher, $finder));
+
+    TransactionType::instance(new TransactionTypeResolver($etfSP500));
 
     $schema = new Schema([
         'query' => new QueryType(),

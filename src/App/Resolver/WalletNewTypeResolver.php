@@ -15,6 +15,7 @@ class WalletNewTypeResolver
      * @var Doctrine
      */
     private $etfsp500;
+
     /**
      * @var UserWalletFinder
      */
@@ -31,7 +32,6 @@ class WalletNewTypeResolver
         $this->userWalletFinder = $userWalletFinder;
         $this->fetcher = $fetcher;
     }
-
 
     public function getCurrentETFSP500Value() : float
     {
