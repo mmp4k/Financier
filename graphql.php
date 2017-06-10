@@ -2,7 +2,9 @@
 
 namespace AppGraphQL;
 
+use App\NotificationsType;
 use App\QueryType;
+use App\Resolver\NotificationsTypeResolver;
 use App\Resolver\TransactionTypeResolver;
 use App\Resolver\UserNewTypeResolver;
 use App\Resolver\WalletNewTypeResolver;
@@ -14,8 +16,12 @@ use Architecture\User\FetcherStorage\Doctrine;
 use Architecture\Wallet\UserResource\UserWalletFinder;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Domain\ETFSP500\BusinessDay;
+use Domain\ETFSP500\NotifierRule\Factory\LessThan;
+use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
 use Domain\User\Fetcher;
 use Domain\User\UserResourceFinder;
+use Domain\Wallet\NotifierRule\Factory\Daily;
 use GraphQL\GraphQL;
 use GraphQL\Schema;
 use GraphQL\Type\Definition\ObjectType;
@@ -46,6 +52,12 @@ try {
 
     TransactionType::instance(new TransactionTypeResolver($etfSP500));
 
+    $notifyFetcher = new \Domain\Notifier\Fetcher(new \Architecture\Notifier\FetcherStorage\Doctrine($connection), $etfSP500);
+    $notifyFetcher->addFactory(new LessThan($etfSP500, new BusinessDay(new \DateTime())));
+    $notifyFetcher->addFactory(new LessThanAverage($etfSP500, new BusinessDay(new \DateTime())));
+    $notifyFetcher->addFactory(new Daily());
+    NotificationsType::instance(new NotificationsTypeResolver($notifyFetcher));
+
     $schema = new Schema([
         'query' => new QueryType(),
         'mutation' => null,
@@ -64,6 +76,8 @@ try {
         ]
     ];
 }
-
-header('Content-type: application/json;charset=UTF-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST,GET');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+//header('Content-type: application/json;charset=UTF-8');
 echo \GuzzleHttp\json_encode($result);

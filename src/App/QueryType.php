@@ -12,7 +12,8 @@ class QueryType extends ObjectType
     {
         $fields = array_merge(
             UserNewType::instance()->configArray(),
-            WalletNewType::instance()->configArray()
+            WalletNewType::instance()->configArray(),
+            NotificationsType::instance()->configArray()
         );
         $config = [
             'name' => 'Query',

@@ -78,19 +78,4 @@ class TransactionType extends ObjectType
         ];
         parent::__construct($config);
     }
-
-    public function configArray()
-    {
-        return [
-            'wallet' => [
-                'type' => TransactionType::instance(),
-                'args' => [
-                    'id' => Type::nonNull(Type::string())
-                ],
-                'resolve' => function($root, $args) {
-                    return $this->resolver->findTransaction($args['id']);
-                }
-            ]
-        ];
-    }
 }
