@@ -2,96 +2,82 @@
 
 namespace AppGraphQL;
 
-use App\CreateETFSP500LessThanNotificationField;
-use App\CurrentSharePriceField;
-use App\NotificationsField;
-use App\UserField;
-use Architecture\ETFSP500\Storage\Doctrine;
+use App\NotificationsType;
+use App\QueryType;
+use App\Resolver\NotificationsTypeResolver;
+use App\Resolver\TransactionTypeResolver;
+use App\Resolver\UserNewTypeResolver;
+use App\Resolver\WalletNewTypeResolver;
+use App\TransactionType;
+use App\Types;
+use App\UserNewType;
+use App\WalletNewType;
+use Architecture\User\FetcherStorage\Doctrine;
 use Architecture\Wallet\UserResource\UserWalletFinder;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Domain\ETFSP500\BusinessDay;
+use Domain\ETFSP500\NotifierRule\Factory\LessThan;
+use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
+use Domain\User\Fetcher;
 use Domain\User\UserResourceFinder;
 use Domain\Wallet\NotifierRule\Factory\Daily;
-use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
-use Domain\ETFSP500\NotifierRule\LessThan;
-use Domain\Notifier\Fetcher;
-use Domain\Notifier\Persister;
-use Youshido\GraphQL\Execution\Processor;
-use Youshido\GraphQL\Schema\Schema;
-use Youshido\GraphQL\Type\NonNullType;
-use Youshido\GraphQL\Type\Object\ObjectType;
-use Youshido\GraphQL\Type\Scalar\BooleanType;
-use Youshido\GraphQL\Type\Scalar\FloatType;
-use Youshido\GraphQL\Type\Scalar\IntType;
+use GraphQL\GraphQL;
+use GraphQL\Schema;
+use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
+
 
 include 'vendor/autoload.php';
-$config = include 'config.php';
 
-$connection = DriverManager::getConnection($config['database'], new Configuration());
+try {
+    $config = include 'config.php';
+    $connection = DriverManager::getConnection($config['database'], new Configuration());
 
-$storage = new Doctrine($connection);
-$businessDay = new BusinessDay(new \DateTime());
-$persister = new Persister(new \Architecture\Notifier\PersisterStorage\Doctrine($connection));
+    $fetcher = new Fetcher(new Doctrine($connection));
 
-$currentSharePrice = new CurrentSharePriceField();
-$currentSharePrice->setStorage($storage);
+    $finder = new UserWalletFinder(
+        new UserResourceFinder(
+            new \Architecture\User\FinderStorage\Doctrine($connection)),
+        new \Domain\Wallet\Fetcher(
+            new \Architecture\Wallet\FetcherStorage\Doctrine($connection)));
 
-$notifierLessThan = new CreateETFSP500LessThanNotificationField($storage, $businessDay, $persister);
+    $etfSP500 = new \Architecture\ETFSP500\Storage\Doctrine($connection);
 
-$fetcher = new Fetcher(new \Architecture\Notifier\FetcherStorage\Doctrine($connection), $storage);
-$notifications = new NotificationsField($fetcher);
-$fetcher->addFactory(new Daily());
-$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThan($storage, $businessDay));
-$fetcher->addFactory(new LessThanAverage($storage, $businessDay));
+    UserNewType::instance(new UserNewTypeResolver($fetcher, $finder));
 
-$userField = new UserField(
-    new \Domain\User\Fetcher(new \Architecture\User\FetcherStorage\Doctrine($connection)),
-    new UserWalletFinder(
-        new UserResourceFinder(new \Architecture\User\FinderStorage\Doctrine($connection)),
-        new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection))));
+    $walletFetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
 
+    WalletNewType::instance(new WalletNewTypeResolver($etfSP500, $walletFetcher, $finder));
 
+    TransactionType::instance(new TransactionTypeResolver($etfSP500));
 
-$processor = new Processor(new Schema([
-    'mutation' => new ObjectType([
-        'name' => 'RootMutationType',
-        'fields' => [
-            'CreateETFSP500LessThanNotification2' => [
-                'type' => new BooleanType(),
-                'args' => [
-                    LessThan::CONFIG_MIN_VALUE => new NonNullType(new IntType())
-                ],
-                'resolve' => function() {
-                    return true;
-                },
-            ],
-            $notifierLessThan,
+    $notifyFetcher = new \Domain\Notifier\Fetcher(new \Architecture\Notifier\FetcherStorage\Doctrine($connection), $etfSP500);
+    $notifyFetcher->addFactory(new LessThan($etfSP500, new BusinessDay(new \DateTime())));
+    $notifyFetcher->addFactory(new LessThanAverage($etfSP500, new BusinessDay(new \DateTime())));
+    $notifyFetcher->addFactory(new Daily());
+    NotificationsType::instance(new NotificationsTypeResolver($notifyFetcher));
+
+    $schema = new Schema([
+        'query' => new QueryType(),
+        'mutation' => null,
+    ]);
+
+    $rawInput = file_get_contents('php://input');
+    $input = json_decode($rawInput, true);
+    $query = $input['query'];
+    $variableValues = isset($input['variables']) ? $input['variables'] : null;
+    $result = GraphQL::execute($schema, $query, null, null, $variableValues);
+
+} catch (\Exception $e) {
+    $result = [
+        'error' => [
+            'message' => $e->getMessage(),
         ]
-    ]),
-    'query' => new ObjectType([
-        'name' => 'RootQueryType',
-        'fields' => [
-            $userField,
-            $notifications,
-            $currentSharePrice,
-            'averageSharePriceFromLastTenMonths' => [
-                'type' => new FloatType(),
-                'resolve' => function() use ($storage) {
-                    return $storage->getAverageFromLastTenMonths();
-                }
-            ]
-        ]
-    ])
-]));
-
-//$processor->processPayload('{ currentSharePrice{value, business_day}, averageSharePriceFromLastTenMonths }');
-$requestData = json_decode(file_get_contents('php://input'), true);
-$payload   = isset($requestData['query']) ? $requestData['query'] : null;
-$variables = isset($requestData['variables']) ? $requestData['variables'] : null;
-$processor->processPayload($payload, $variables);
-//var_dump(file_get_contents('php://input'));
-header('Content-Type: application/json');
-echo json_encode($processor->getResponseData()) . "\n";
-
-//echo file_get_contents('php://input');
+    ];
+}
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST,GET');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+//header('Content-type: application/json;charset=UTF-8');
+echo \GuzzleHttp\json_encode($result);

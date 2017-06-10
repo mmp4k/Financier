@@ -47,6 +47,11 @@ class UserWallet implements UserResource
         return $this->user;
     }
 
+    public function valueOfInvestment()
+    {
+        return $this->wallet->valueOfInvestment();
+    }
+
     public function getTransactions()
     {
         return $this->wallet->getTransactions();

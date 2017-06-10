@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1dd48d20a90aea1de4a9d3db074af778",
+    "content-hash": "6a8f0b21ab07a4ef485fb704a9744bf5",
     "packages": [
         {
             "name": "behat/behat",
@@ -3386,47 +3386,49 @@
             "time": "2016-11-23T20:04:58+00:00"
         },
         {
-            "name": "youshido/graphql",
-            "version": "v1.4.3.3",
+            "name": "webonyx/graphql-php",
+            "version": "v0.9.10",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Youshido/GraphQL.git",
-                "reference": "11b38db3917e81c80d9280ba613361a91ec6ba60"
+                "url": "https://github.com/webonyx/graphql-php.git",
+                "reference": "e7cde5ecf3b0796db34d492f0698498eefe85bcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Youshido/GraphQL/zipball/11b38db3917e81c80d9280ba613361a91ec6ba60",
-                "reference": "11b38db3917e81c80d9280ba613361a91ec6ba60",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/e7cde5ecf3b0796db34d492f0698498eefe85bcf",
+                "reference": "e7cde5ecf3b0796db34d492f0698498eefe85bcf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5,<8.0-DEV"
+                "ext-mbstring": "*",
+                "php": ">=5.4,<8.0-DEV"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8"
             },
+            "suggest": {
+                "react/promise": "To use ReactPHP promise adapter"
+            },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/deprecated.php"
+                ],
                 "psr-4": {
-                    "Youshido\\GraphQL\\": "src"
+                    "GraphQL\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD"
             ],
-            "authors": [
-                {
-                    "name": "Alexandr Viniychuk",
-                    "email": "a@viniychuk.com"
-                },
-                {
-                    "name": "Portey Vasil",
-                    "email": "portey@gmail.com"
-                }
+            "description": "A PHP port of GraphQL reference implementation",
+            "homepage": "https://github.com/webonyx/graphql-php",
+            "keywords": [
+                "api",
+                "graphql"
             ],
-            "description": "Pure PHP GraphQL",
-            "time": "2017-05-08T20:33:04+00:00"
+            "time": "2017-06-03T10:17:42+00:00"
         },
         {
             "name": "zendframework/zend-code",
