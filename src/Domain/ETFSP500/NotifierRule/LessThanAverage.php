@@ -6,6 +6,8 @@ use Domain\ETFSP500\BusinessDay;
 use Domain\ETFSP500\Storage;
 use Domain\Notifier\NotifierRule;
 use Domain\Notifier\PersistableNotifierRule;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class LessThanAverage implements NotifierRule, PersistableNotifierRule
 {
@@ -19,10 +21,16 @@ class LessThanAverage implements NotifierRule, PersistableNotifierRule
      */
     private $businessDay;
 
+    /**
+     * @var UuidInterface
+     */
+    private $id;
+
     public function __construct(Storage $storage, BusinessDay $businessDay)
     {
         $this->storage = $storage;
         $this->businessDay = $businessDay;
+        $this->id = Uuid::uuid4();
     }
 
     public function notify(): bool
@@ -47,5 +55,15 @@ class LessThanAverage implements NotifierRule, PersistableNotifierRule
     public function persistConfig(): array
     {
         return [];
+    }
+
+    public function id(): UuidInterface
+    {
+        return $this->id;
+    }
+
+    public function setId(UuidInterface $id)
+    {
+        $this->id = $id;
     }
 }

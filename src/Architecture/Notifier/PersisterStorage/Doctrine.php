@@ -25,9 +25,11 @@ class Doctrine implements PersisterStorage
         $qb->insert('notifier_rules')
             ->setValue('class', '?')
             ->setValue('options', '?')
+            ->setValue('id', '?')
             ->setParameters([
                 get_class($persistableNotifierRule),
-                json_encode($persistableNotifierRule->persistConfig())
+                json_encode($persistableNotifierRule->persistConfig()),
+                $persistableNotifierRule->id()->getBytes(),
             ])
             ->execute();
     }

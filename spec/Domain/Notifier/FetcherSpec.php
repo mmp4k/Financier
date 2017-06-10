@@ -13,6 +13,7 @@ use Domain\Notifier\NotifierRuleFactory;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Domain\ETFSP500\Storage as ETFSP500Storage;
+use Ramsey\Uuid\UuidInterface;
 
 class FetcherSpec extends ObjectBehavior
 {
@@ -31,7 +32,7 @@ class FetcherSpec extends ObjectBehavior
         $this->addFactory($notifierRuleFactory);
     }
 
-    function it_gets_notifier_rules(FetcherStorage $storage, NotifierRuleFactory $notifierRuleFactory, LessThan $lessThan, NotifierRuleFactory $notifierRuleFactory2, LessThanAverage $lessThanAverage)
+    function it_gets_notifier_rules(UuidInterface $id, FetcherStorage $storage, NotifierRuleFactory $notifierRuleFactory, LessThan $lessThan, NotifierRuleFactory $notifierRuleFactory2, LessThanAverage $lessThanAverage)
     {
         $this->addFactory($notifierRuleFactory);
         $this->addFactory($notifierRuleFactory2);
@@ -39,31 +40,36 @@ class FetcherSpec extends ObjectBehavior
         $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThan')->willReturn(true);
         $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->willReturn(false);
         $notifierRuleFactory->create([
-            'minValue' => 90
+            'minValue' => 90,
+            'id' => $id,
         ])->shouldBeCalled();
         $notifierRuleFactory->create([
-            'minValue' => 90
+            'minValue' => 90,
+            'id' => $id,
         ])->willReturn($lessThan);
         $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThan')->shouldBeCalled();
 
         $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThan')->willReturn(false);
         $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->willReturn(true);
-        $notifierRuleFactory2->create([])->shouldBeCalled();
-        $notifierRuleFactory2->create([])->willReturn($lessThanAverage);
+        $notifierRuleFactory2->create(['id' => $id])->shouldBeCalled();
+        $notifierRuleFactory2->create(['id' => $id])->willReturn($lessThanAverage);
         $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->shouldBeCalled();
 
         $storage->getNotifierRules()->shouldBeCalled();
 
         $storage->getNotifierRules()->willReturn([
             [
+                'id' => $id,
                 'class' => 'Domain\ETFSP500\NotifierRule\LessThan',
                 'options' => [
-                    'minValue' => 90
+                    'minValue' => 90,
                 ],
             ],
             [
+                'id' => $id,
                 'class' => 'Domain\ETFSP500\NotifierRule\LessThanAverage',
-                'options' => [],
+                'options' => [
+                ],
             ]
         ]);
         $this->getNotifierRules()->shouldBeArray();

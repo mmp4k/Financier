@@ -7,6 +7,7 @@ use Domain\ETFSP500\NotifierRule\Factory\LessThanAverage;
 use Domain\ETFSP500\Storage;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Ramsey\Uuid\UuidInterface;
 
 class LessThanAverageSpec extends ObjectBehavior
 {
@@ -25,9 +26,10 @@ class LessThanAverageSpec extends ObjectBehavior
         $this->support(\Domain\ETFSP500\NotifierRule\LessThanAverage::class)->shouldBe(true);
     }
 
-    function it_creates_rule_from_options()
+    function it_creates_rule_from_options(UuidInterface $id)
     {
         $rule = $this->create([
+            'id' => $id
         ]);
         $rule->shouldBeAnInstanceOf(\Domain\ETFSP500\NotifierRule\LessThanAverage::class);
     }

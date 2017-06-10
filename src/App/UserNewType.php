@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Resolver\UserNewTypeResolver;
+use Architecture\Notifier\UserResource\UserNotifierRule;
 use Architecture\Wallet\UserResource\UserWallet;
 use Domain\User\User;
 use Domain\Wallet\Wallet;
@@ -39,6 +40,28 @@ class UserNewType extends ObjectType
     {
         $config = [
             'fields' => [
+                'notifications' => [
+                    'type' => Type::listOf(new ObjectType([
+                        'name' => 'notification',
+                        'fields' => [
+                            'id' => [
+                                'type' => Type::string(),
+                                'resolve' => function(UserNotifierRule $rule) {
+                                    return $rule->id();
+                                }
+                            ],
+                            'type' => [
+                                'type' => Type::string(),
+                                'resolve' => function(UserNotifierRule $rule) {
+                                    return $rule->getType();
+                                }
+                            ]
+                        ]
+                    ])),
+                    'resolve' => function (User $user) {
+                        return $this->resolver->findNotifications($user);
+                    }
+                ],
                 'identifier' => [
                     'type' => Type::string(),
                     'resolve' => function (User $user) {

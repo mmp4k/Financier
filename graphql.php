@@ -12,6 +12,7 @@ use App\TransactionType;
 use App\Types;
 use App\UserNewType;
 use App\WalletNewType;
+use Architecture\Notifier\UserResource\UserNotifierFinder;
 use Architecture\User\FetcherStorage\Doctrine;
 use Architecture\Wallet\UserResource\UserWalletFinder;
 use Doctrine\DBAL\Configuration;
@@ -36,26 +37,32 @@ try {
 
     $fetcher = new Fetcher(new Doctrine($connection));
 
-    $finder = new UserWalletFinder(
-        new UserResourceFinder(
-            new \Architecture\User\FinderStorage\Doctrine($connection)),
-        new \Domain\Wallet\Fetcher(
-            new \Architecture\Wallet\FetcherStorage\Doctrine($connection)));
-
     $etfSP500 = new \Architecture\ETFSP500\Storage\Doctrine($connection);
-
-    UserNewType::instance(new UserNewTypeResolver($fetcher, $finder));
-
-    $walletFetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
-
-    WalletNewType::instance(new WalletNewTypeResolver($etfSP500, $walletFetcher, $finder));
-
-    TransactionType::instance(new TransactionTypeResolver($etfSP500));
 
     $notifyFetcher = new \Domain\Notifier\Fetcher(new \Architecture\Notifier\FetcherStorage\Doctrine($connection), $etfSP500);
     $notifyFetcher->addFactory(new LessThan($etfSP500, new BusinessDay(new \DateTime())));
     $notifyFetcher->addFactory(new LessThanAverage($etfSP500, new BusinessDay(new \DateTime())));
     $notifyFetcher->addFactory(new Daily());
+
+    $finderWallet = new UserWalletFinder(
+        new UserResourceFinder(
+            new \Architecture\User\FinderStorage\Doctrine($connection)),
+        new \Domain\Wallet\Fetcher(
+            new \Architecture\Wallet\FetcherStorage\Doctrine($connection)));
+
+    $finderNotifierRules = new UserNotifierFinder(
+        new UserResourceFinder(new \Architecture\User\FinderStorage\Doctrine($connection)),
+        $notifyFetcher);
+
+
+    UserNewType::instance(new UserNewTypeResolver($fetcher, $finderWallet, $finderNotifierRules));
+
+    $walletFetcher = new \Domain\Wallet\Fetcher(new \Architecture\Wallet\FetcherStorage\Doctrine($connection));
+
+    WalletNewType::instance(new WalletNewTypeResolver($etfSP500, $walletFetcher, $finderWallet));
+
+    TransactionType::instance(new TransactionTypeResolver($etfSP500));
+
     NotificationsType::instance(new NotificationsTypeResolver($notifyFetcher));
 
     $schema = new Schema([

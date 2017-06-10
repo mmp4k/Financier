@@ -8,6 +8,7 @@ use Domain\ETFSP500\Storage;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Subject;
 use Prophecy\Argument;
+use Ramsey\Uuid\UuidInterface;
 
 class LessThanSpec extends ObjectBehavior
 {
@@ -26,11 +27,12 @@ class LessThanSpec extends ObjectBehavior
         $this->support(\Domain\ETFSP500\NotifierRule\LessThan::class)->shouldBe(true);
     }
 
-    function it_creates_rule_from_options()
+    function it_creates_rule_from_options(UuidInterface $id)
     {
         /** @var \Domain\ETFSP500\NotifierRule\LessThan|Subject $rule */
         $rule = $this->create([
-            'minValue' => 50
+            'minValue' => 50,
+            'id' => $id,
         ]);
         $rule->shouldBeAnInstanceOf(\Domain\ETFSP500\NotifierRule\LessThan::class);
         $rule->getMinValue()->shouldBe(50.0);

@@ -3,6 +3,7 @@
 namespace Domain\Notifier;
 
 use Domain\ETFSP500\Storage as ETFSP500Storage;
+use Ramsey\Uuid\UuidInterface;
 
 class Fetcher
 {
@@ -37,6 +38,7 @@ class Fetcher
 
         foreach ($arrayRules as $rule) {
             $options = $rule['options'];
+            $options['id'] = $rule['id'];
 
             foreach ($this->factories as $factory) {
                 if (!$factory->support($rule['class'])) {
@@ -53,5 +55,18 @@ class Fetcher
     public function addFactory(NotifierRuleFactory $factory)
     {
         $this->factories[] = $factory;
+    }
+
+    public function findRule(UuidInterface $id)
+    {
+        $rules = $this->getNotifierRules();
+
+        foreach ($rules as $rule) {
+            if ($rule->id()->equals($id)) {
+                return $rule;
+            }
+        }
+
+        return null;
     }
 }

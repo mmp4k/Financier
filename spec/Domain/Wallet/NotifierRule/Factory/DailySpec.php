@@ -5,6 +5,7 @@ namespace spec\Domain\Wallet\NotifierRule\Factory;
 use Domain\Wallet\NotifierRule\Factory\Daily;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Ramsey\Uuid\UuidInterface;
 
 class DailySpec extends ObjectBehavior
 {
@@ -18,9 +19,10 @@ class DailySpec extends ObjectBehavior
         $this->support(\Domain\Wallet\NotifierRule\Daily::class)->shouldBe(true);
     }
 
-    function it_creates_rule_from_options()
+    function it_creates_rule_from_options(UuidInterface $id)
     {
         $rule = $this->create([
+            'id' => $id,
         ]);
         $rule->shouldBeAnInstanceOf(\Domain\Wallet\NotifierRule\Daily::class);
     }

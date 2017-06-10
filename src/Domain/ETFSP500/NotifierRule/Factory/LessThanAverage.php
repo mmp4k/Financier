@@ -31,6 +31,8 @@ class LessThanAverage implements NotifierRuleFactory
 
     public function create(array $options): NotifierRule
     {
-        return new \Domain\ETFSP500\NotifierRule\LessThanAverage($this->storage, $this->businessDay);
+        $rule = new \Domain\ETFSP500\NotifierRule\LessThanAverage($this->storage, $this->businessDay);
+        $rule->setId($options['id']);
+        return $rule;
     }
 }

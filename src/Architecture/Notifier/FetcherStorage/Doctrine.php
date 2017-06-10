@@ -10,6 +10,7 @@ use Domain\ETFSP500\NotifierRule\LessThanAverage;
 use Domain\Notifier\FetcherStorage;
 use Domain\Notifier\Storage;
 use Domain\ETFSP500\Storage as ETFSP500Storage;
+use Ramsey\Uuid\Uuid;
 
 class Doctrine implements FetcherStorage
 {
@@ -37,6 +38,7 @@ class Doctrine implements FetcherStorage
             $rules[] = [
                 'class' => $rule['class'],
                 'options' => $options,
+                'id' => Uuid::fromBytes($rule['id']),
             ];
         }
 

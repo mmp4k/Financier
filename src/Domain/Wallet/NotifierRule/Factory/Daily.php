@@ -14,6 +14,8 @@ class Daily implements NotifierRuleFactory
 
     public function create(array $options): NotifierRule
     {
-        return new \Domain\Wallet\NotifierRule\Daily();
+        $rule = new \Domain\Wallet\NotifierRule\Daily();
+        $rule->setId($options['id']);
+        return $rule;
     }
 }

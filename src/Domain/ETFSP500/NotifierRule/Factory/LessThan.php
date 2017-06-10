@@ -31,6 +31,8 @@ class LessThan implements NotifierRuleFactory
 
     public function create(array $options): NotifierRule
     {
-        return new \Domain\ETFSP500\NotifierRule\LessThan($this->storage, $options[\Domain\ETFSP500\NotifierRule\LessThan::CONFIG_MIN_VALUE], $this->businessDay);
+        $rule = new \Domain\ETFSP500\NotifierRule\LessThan($this->storage, $options[\Domain\ETFSP500\NotifierRule\LessThan::CONFIG_MIN_VALUE], $this->businessDay);
+        $rule->setId($options['id']);
+        return $rule;
     }
 }

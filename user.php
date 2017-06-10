@@ -19,12 +19,33 @@ $user = $fetcherUser->findUserByIdentify('m@pilsniak.com');
 
 var_dump($user);
 
+$businessDay = new \Domain\ETFSP500\BusinessDay(new \DateTime());
+$storage = new \Architecture\ETFSP500\Storage\Doctrine($connection);
+$assigner = new \Domain\User\Assigner(new \Architecture\User\AssignerStorage\Doctrine($connection));
+$fetcherStorage = new Architecture\Notifier\FetcherStorage\Doctrine($connection);
+$fetcher = new \Domain\Notifier\Fetcher($fetcherStorage, $storage);
+$fetcher->addFactory(new \Domain\Wallet\NotifierRule\Factory\Daily());
+$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThan($storage, $businessDay));
+$fetcher->addFactory(new \Domain\ETFSP500\NotifierRule\Factory\LessThanAverage($storage, $businessDay));
+$rulePersister = new \Domain\Notifier\Persister(new \Architecture\Notifier\PersisterStorage\Doctrine($connection));
+//foreach ($fetcher->getNotifierRules() as $rule) {
+
+$rule = new \Domain\Wallet\NotifierRule\Daily();
+$rulePersister->persist($rule);
+
+    $uerNotify = new \Architecture\Notifier\UserResource\UserNotifierRule($rule, $user);
+    $assigner->assign($uerNotify);
+
+//}
+/*
+
 $walletPersister = new \Domain\Wallet\Persister(new \Architecture\Wallet\PersisterStorage\Doctrine($connection));
 $walletPersister->persist($wallet);
 
 $assigner = new \Domain\User\Assigner(new \Architecture\User\AssignerStorage\Doctrine($connection));
 $userWallet = new \Architecture\Wallet\UserResource\UserWallet($wallet, $user);
 $assigner->assign($userWallet);
+*/
 
 /*
 

@@ -3,6 +3,7 @@
 namespace App\Resolver;
 
 use Architecture\ETFSP500\Storage\Doctrine;
+use Architecture\Notifier\UserResource\UserNotifierFinder;
 use Architecture\Wallet\UserResource\UserWallet;
 use Architecture\Wallet\UserResource\UserWalletFinder;
 use Domain\ETFSP500\BusinessDay;
@@ -22,10 +23,16 @@ class UserNewTypeResolver
      */
     private $userWalletFinder;
 
-    public function __construct(Fetcher $fetcher, UserWalletFinder $userWalletFinder)
+    /**
+     * @var UserNotifierFinder
+     */
+    private $userNotifierFinder;
+
+    public function __construct(Fetcher $fetcher, UserWalletFinder $userWalletFinder, UserNotifierFinder $userNotifierFinder)
     {
         $this->fetcher = $fetcher;
         $this->userWalletFinder = $userWalletFinder;
+        $this->userNotifierFinder = $userNotifierFinder;
     }
 
     public function findUser(string $email) : User
@@ -36,6 +43,10 @@ class UserNewTypeResolver
     public function findUserWallets(User $user) : array
     {
         return $this->userWalletFinder->findWallets($user);
+    }
+    public function findNotifications(User $user) : array
+    {
+        return $this->userNotifierFinder->findRules($user);
     }
 
 }
