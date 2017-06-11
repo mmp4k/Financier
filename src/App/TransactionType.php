@@ -73,6 +73,18 @@ class TransactionType extends ObjectType
                     'resolve' => function(WalletTransaction $transaction) {
                         return $transaction->assetName();
                     }
+                ],
+                'boughtAssets' => [
+                    'type' => Type::int(),
+                    'resolve' => function(WalletTransaction $transaction) {
+                        return $transaction->assets();
+                    }
+                ],
+                'priceSingleAsset' => [
+                    'type' => Type::float(),
+                    'resolve' => function(WalletTransaction $transaction) {
+                        return $transaction->priceSingleAsset();
+                    }
                 ]
             ]
         ];
