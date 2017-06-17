@@ -8,6 +8,7 @@ class Notifier
      * @var array|NotifierRule[]
      */
     protected $notifiers = [];
+
     /**
      * @var NotifierProvider
      */
@@ -30,25 +31,15 @@ class Notifier
 
     public function notify()
     {
-        $matched = [];
-
-        foreach ($this->notifiers as $notifier) {
-            if (!$notifier->notify()) {
-                continue;
-            }
-
-            $matched[] = $notifier;
-        }
-
-        if (!$matched) {
-            return;
-        }
-
         $body = [];
 
         foreach ($this->notifyHandlers as $notifyHandler) {
-            foreach ($matched as $notifier) {
-                if (!$notifyHandler->isSupported($notifier)) {
+            foreach ($this->notifiers as $notifier) {
+                if (!$notifyHandler->support($notifier)) {
+                    continue;
+                }
+
+                if (!$notifyHandler->notify($notifier)) {
                     continue;
                 }
 
@@ -56,6 +47,9 @@ class Notifier
             }
         }
 
+        if (!$body) {
+            return;
+        }
 
         $this->notifierProvider->send($body);
     }

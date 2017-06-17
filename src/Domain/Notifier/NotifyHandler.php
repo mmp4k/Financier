@@ -4,7 +4,9 @@ namespace Domain\Notifier;
 
 interface NotifyHandler
 {
-    public function prepareBody(NotifierRule $notifierRule);
+    public function prepareBody(NotifierRule $notifierRule) : string;
 
-    public function isSupported(NotifierRule $notifierRule);
+    public function support(NotifierRule $notifierRule) : bool;
+
+    public function notify(NotifierRule $notifierRule) : bool;
 }

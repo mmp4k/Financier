@@ -28,4 +28,9 @@ class Fetcher
     {
         return $this->source->findByAssetAndDate($closingPrice->asset(), $closingPrice->date()) instanceof ClosingPrice ? true : false;
     }
+
+    public function findTodayClosingPrice(Asset $asset) : ?ClosingPrice
+    {
+        return $this->source->findByAssetAndDate($asset->code(), new \DateTime());
+    }
 }

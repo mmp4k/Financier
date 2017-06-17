@@ -14,7 +14,7 @@ class Persister
         $this->persisterStorage = $persisterStorage;
     }
 
-    public function persist(PersistableNotifierRule $persistableNotifierRule)
+    public function persist(NotifierRule $persistableNotifierRule)
     {
         $this->persisterStorage->persist($persistableNotifierRule);
     }

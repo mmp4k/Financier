@@ -4,7 +4,6 @@ namespace App;
 
 use App\Resolver\NotificationsTypeResolver;
 use Domain\Notifier\NotifierRule;
-use Domain\Notifier\PersistableNotifierRule;
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -41,7 +40,6 @@ class NotificationsType extends ObjectType
                 'config' => [
                     'type' => Type::string(),
                     'resolve' => function(NotifierRule $rule) {
-                        /** @var PersistableNotifierRule|NotifierRule $rule */
                         return json_encode($rule->persistConfig());
                     }
                 ],

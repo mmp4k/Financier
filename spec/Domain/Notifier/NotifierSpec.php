@@ -23,31 +23,7 @@ class NotifierSpec extends ObjectBehavior
 
     function it_collects_rules(NotifierRule $notifierRule)
     {
-        $notifierRule->notify()->willReturn(true);
         $this->collect($notifierRule);
-        $this->notify();
-    }
-
-    function it_does_not_notify_if_not_rule_to_apply(NotifierRule $notifierRule, NotifierProvider $notifierProvider)
-    {
-        $notifierRule->notify()->willReturn(false);
-        $notifierRule->notify()->shouldBeCalled();
-        $notifierProvider->send([])->shouldNotBeCalled();
-
-        $this->collect($notifierRule);
-
-        $this->notify();
-    }
-
-    function it_notify_if_rule_to_apply(NotifierRule $notifierRule, NotifierProvider $notifierProvider)
-    {
-        $notifierRule->notify()->willReturn(true);
-        $notifierRule->notify()->shouldBeCalled();
-        $notifierProvider->send([])->shouldBeCalled();
-
-        $this->collect($notifierRule);
-
-        $this->notify();
     }
 
     function it_collect_notifier_handlers(NotifyHandler $notifyHandler)
@@ -57,10 +33,10 @@ class NotifierSpec extends ObjectBehavior
 
     function it_execute_handler_when_send_notify(NotifierRule $notifierRule, NotifyHandler $notifyHandler)
     {
-        $notifierRule->notify()->willReturn(true);
-
-        $notifyHandler->isSupported($notifierRule)->willReturn(true);
-        $notifyHandler->isSupported($notifierRule)->shouldBeCalled();
+        $notifyHandler->support($notifierRule)->willReturn(true);
+        $notifyHandler->support($notifierRule)->shouldBeCalled();
+        $notifyHandler->notify($notifierRule)->willReturn(true);
+        $notifyHandler->notify($notifierRule)->shouldBeCalled();
         $notifyHandler->prepareBody($notifierRule)->shouldBeCalled();
 
         $this->addNotifyHandler($notifyHandler);
@@ -71,9 +47,9 @@ class NotifierSpec extends ObjectBehavior
 
     function it_ignores_rule_if_is_not_supported_by_handler(NotifierRule $notifierRule, NotifyHandler $notifyHandler)
     {
-        $notifierRule->notify()->willReturn(true);
-        $notifyHandler->isSupported($notifierRule)->willReturn(false);
-        $notifyHandler->isSupported($notifierRule)->shouldBeCalled();
+        $notifyHandler->support($notifierRule)->willReturn(false);
+        $notifyHandler->support($notifierRule)->shouldBeCalled();
+        $notifyHandler->notify($notifierRule)->shouldNotBeCalled();
         $notifyHandler->prepareBody($notifierRule)->shouldNotBeCalled();
 
         $this->addNotifyHandler($notifyHandler);

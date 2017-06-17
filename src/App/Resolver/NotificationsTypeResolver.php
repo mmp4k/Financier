@@ -4,7 +4,6 @@ namespace App\Resolver;
 
 use Domain\Notifier\Fetcher;
 use Domain\Notifier\NotifierRule;
-use Domain\Notifier\PersistableNotifierRule;
 
 class NotificationsTypeResolver
 {
@@ -19,7 +18,7 @@ class NotificationsTypeResolver
     }
 
     /**
-     * @return NotifierRule[]|PersistableNotifierRule[]
+     * @return NotifierRule[]
      */
     public function getNotifications() : array
     {

@@ -2,7 +2,6 @@
 
 namespace Domain\Notifier;
 
-use Domain\ETFSP500\Storage as ETFSP500Storage;
 use Ramsey\Uuid\UuidInterface;
 
 class Fetcher
@@ -11,20 +10,15 @@ class Fetcher
      * @var FetcherStorage
      */
     private $storage;
-    /**
-     * @var ETFSP500Storage
-     */
-    private $etfsp500Storage;
 
     /**
      * @var NotifierRuleFactory[]
      */
     private $factories = [];
 
-    public function __construct(FetcherStorage $storage, ETFSP500Storage $etfsp500Storage)
+    public function __construct(FetcherStorage $storage)
     {
         $this->storage = $storage;
-        $this->etfsp500Storage = $etfsp500Storage;
     }
 
     /**

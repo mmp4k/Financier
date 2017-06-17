@@ -2,9 +2,9 @@
 
 namespace spec\Domain\Notifier;
 
+use Domain\Notifier\NotifierRule;
 use Domain\Notifier\Persister;
 use Domain\Notifier\PersisterStorage;
-use Domain\Notifier\PersistableNotifierRule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -20,7 +20,7 @@ class PersisterSpec extends ObjectBehavior
         $this->shouldHaveType(Persister::class);
     }
 
-    function it_persists(PersistableNotifierRule $persistableNotifierRule, PersisterStorage $persisterStorage)
+    function it_persists(NotifierRule $persistableNotifierRule, PersisterStorage $persisterStorage)
     {
         $persisterStorage->persist($persistableNotifierRule)->shouldBeCalled();
 

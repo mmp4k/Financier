@@ -3,11 +3,10 @@
 namespace Domain\Wallet\NotifierRule;
 
 use Domain\Notifier\NotifierRule;
-use Domain\Notifier\PersistableNotifierRule;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class Daily implements NotifierRule, PersistableNotifierRule
+class Daily implements NotifierRule
 {
     /**
      * @var UuidInterface

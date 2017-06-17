@@ -3,7 +3,6 @@
 namespace Architecture\Notifier\UserResource;
 
 use Domain\Notifier\NotifierRule;
-use Domain\Notifier\PersistableNotifierRule;
 use Domain\User\User;
 use Domain\User\UserResource;
 use Ramsey\Uuid\UuidInterface;
@@ -11,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 class UserNotifierRule implements UserResource
 {
     /**
-     * @var NotifierRule|PersistableNotifierRule
+     * @var NotifierRule
      */
     private $rule;
 
@@ -44,5 +43,10 @@ class UserNotifierRule implements UserResource
     public function getType() : string
     {
         return get_class($this->rule);
+    }
+
+    public function rule()
+    {
+        return $this->rule;
     }
 }

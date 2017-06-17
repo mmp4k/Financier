@@ -2,8 +2,8 @@
 
 namespace Architecture\Notifier\PersisterStorage;
 
-use Doctrine\DBAL\Driver\Connection;
-use Domain\Notifier\PersistableNotifierRule;
+use Doctrine\DBAL\Connection;
+use Domain\Notifier\NotifierRule;
 use Domain\Notifier\PersisterStorage;
 
 class Doctrine implements PersisterStorage
@@ -18,7 +18,7 @@ class Doctrine implements PersisterStorage
         $this->connection = $connection;
     }
 
-    public function persist(PersistableNotifierRule $persistableNotifierRule)
+    public function persist(NotifierRule $persistableNotifierRule)
     {
         $qb = $this->connection->createQueryBuilder();
 

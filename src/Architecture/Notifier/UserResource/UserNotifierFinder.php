@@ -23,6 +23,11 @@ class UserNotifierFinder
         $this->fetcher = $fetcher;
     }
 
+    /**
+     * @param User $user
+     *
+     * @return UserNotifierRule[]
+     */
     public function findRules(User $user)
     {
         $resources = $this->finder->findByTypeAndUser(UserNotifierRule::class, $user);

@@ -4,5 +4,5 @@ namespace Domain\Notifier;
 
 interface PersisterStorage
 {
-    public function persist(PersistableNotifierRule $persistableNotifierRule);
+    public function persist(NotifierRule $persistableNotifierRule);
 }

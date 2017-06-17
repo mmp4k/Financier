@@ -5,7 +5,7 @@ namespace Domain\Notifier;
 interface Storage
 {
     /**
-     * @return NotifierRule[]|PersistableNotifierRule[]
+     * @return NotifierRule[]
      */
     public function getNotifierRules();
 }
