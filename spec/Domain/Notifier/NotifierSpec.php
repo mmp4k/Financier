@@ -57,4 +57,19 @@ class NotifierSpec extends ObjectBehavior
 
         $this->notify();
     }
+
+    function it_ignores_rule_if_handler_does_not_want(NotifierRule $notifierRule, NotifyHandler $notifyHandler)
+    {
+        $notifyHandler->support($notifierRule)->willReturn(true);
+        $notifyHandler->support($notifierRule)->shouldBeCalled();
+        $notifyHandler->notify($notifierRule)->willReturn(false);
+        $notifyHandler->notify($notifierRule)->shouldBeCalled();
+        $notifyHandler->prepareBody($notifierRule)->shouldNotBeCalled();
+
+        $this->addNotifyHandler($notifyHandler);
+        $this->collect($notifierRule);
+
+        $this->notify();
+    }
 }
+

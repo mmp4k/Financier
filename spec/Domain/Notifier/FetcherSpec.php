@@ -26,52 +26,39 @@ class FetcherSpec extends ObjectBehavior
     {
         $this->addFactory($notifierRuleFactory);
     }
-//
-//    function it_gets_notifier_rules(UuidInterface $id, FetcherStorage $storage, NotifierRuleFactory $notifierRuleFactory, NotifierRuleFactory $notifierRuleFactory2)
-//    {
-//        $this->addFactory($notifierRuleFactory);
-//        $this->addFactory($notifierRuleFactory2);
-//
-//        $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThan')->willReturn(true);
-//        $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->willReturn(false);
-//        $notifierRuleFactory->create([
-//            'minValue' => 90,
-//            'id' => $id,
-//        ])->shouldBeCalled();
-//        $notifierRuleFactory->create([
-//            'minValue' => 90,
-//            'id' => $id,
-//        ])->willReturn($lessThan);
-//        $notifierRuleFactory->support('Domain\ETFSP500\NotifierRule\LessThan')->shouldBeCalled();
-//
-//        $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThan')->willReturn(false);
-//        $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->willReturn(true);
-//        $notifierRuleFactory2->create(['id' => $id])->shouldBeCalled();
-//        $notifierRuleFactory2->create(['id' => $id])->willReturn($lessThanAverage);
-//        $notifierRuleFactory2->support('Domain\ETFSP500\NotifierRule\LessThanAverage')->shouldBeCalled();
-//
-//        $storage->getNotifierRules()->shouldBeCalled();
-//
-//        $storage->getNotifierRules()->willReturn([
-//            [
-//                'id' => $id,
-//                'class' => 'Domain\ETFSP500\NotifierRule\LessThan',
-//                'options' => [
-//                    'minValue' => 90,
-//                ],
-//            ],
-//            [
-//                'id' => $id,
-//                'class' => 'Domain\ETFSP500\NotifierRule\LessThanAverage',
-//                'options' => [
-//                ],
-//            ]
-//        ]);
-//        $this->getNotifierRules()->shouldBeArray();
-//        $objRules = $this->getNotifierRules();
-//        $objRules[0]->shouldImplement(LessThan::class);
-//        $objRules[0]->shouldImplement(NotifierRule::class);
-//        $objRules[1]->shouldImplement(LessThanAverage::class);
-//        $objRules[1]->shouldImplement(NotifierRule::class);
-//    }
+
+    function it_finds_rule_by_uuid(UuidInterface $uuid, FetcherStorage $storage, NotifierRuleFactory $factory, NotifierRule $rule)
+    {
+        $this->addFactory($factory);
+
+        $rule->id()->willReturn($uuid);
+        $factory->support('Test')->willReturn(true);
+        $factory->create(Argument::any())->willReturn($rule);
+        $storage->getNotifierRules()->willReturn([
+           [
+               'class' => 'Test',
+               'id' => $uuid,
+               'options' => [
+               ]
+           ]
+        ]);
+
+        $this->findRule($uuid);
+    }
+
+    function it_does_not_found_rule_if_factory_does_not_support(UuidInterface $uuid, FetcherStorage $storage, NotifierRuleFactory $factory)
+    {
+        $this->addFactory($factory);
+        $factory->support('Test')->willReturn(false);
+        $storage->getNotifierRules()->willReturn([
+            [
+                'class' => 'Test',
+                'id' => $uuid,
+                'options' => [
+                ]
+            ]
+        ]);
+
+        $this->getNotifierRules()->shouldBe([]);
+    }
 }
