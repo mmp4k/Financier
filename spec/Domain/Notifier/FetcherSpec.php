@@ -32,6 +32,7 @@ class FetcherSpec extends ObjectBehavior
         $this->addFactory($factory);
 
         $rule->id()->willReturn($uuid);
+        $uuid->equals($uuid)->willReturn(true);
         $factory->support('Test')->willReturn(true);
         $factory->create(Argument::any())->willReturn($rule);
         $storage->getNotifierRules()->willReturn([
@@ -43,7 +44,7 @@ class FetcherSpec extends ObjectBehavior
            ]
         ]);
 
-        $this->findRule($uuid);
+        $this->findRule($uuid)->shouldBe($rule);
     }
 
     function it_does_not_found_rule_if_factory_does_not_support(UuidInterface $uuid, FetcherStorage $storage, NotifierRuleFactory $factory)
