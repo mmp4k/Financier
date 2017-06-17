@@ -2,5 +2,4 @@ default:
   suites:
     default:
       contexts:
-        - ETFSP500Context
-        - WalletContext
+        - GPWContext
