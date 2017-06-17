@@ -84,4 +84,9 @@ class WalletTransactionSpec extends ObjectBehavior
     {
         $this->setUuid($uuid);
     }
+
+    function it_has_price_for_single_asset()
+    {
+        $this->priceSingleAsset();
+    }
 }
