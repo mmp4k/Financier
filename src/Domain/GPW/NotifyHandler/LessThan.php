@@ -37,7 +37,7 @@ class LessThan implements NotifyHandler
 
     public function support(NotifierRule $notifierRule): bool
     {
-        return get_class($notifierRule) === \Domain\GPW\NotifierRule\LessThan::class;
+        return $notifierRule instanceof \Domain\GPW\NotifierRule\LessThan;
     }
 
     /**

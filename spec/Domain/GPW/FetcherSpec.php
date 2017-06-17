@@ -2,6 +2,7 @@
 
 namespace spec\Domain\GPW;
 
+use Domain\GPW\Asset;
 use Domain\GPW\ClosingPrice;
 use Domain\GPW\Fetcher;
 use Domain\GPW\Fetcher\FetchStorage;
@@ -34,6 +35,12 @@ class FetcherSpec extends ObjectBehavior
         $source->findByAssetAndDate($assetName, $date)->willReturn(null);
 
         $this->findDuplicate($closingPrice)->shouldBe(false);
+    }
 
+    function it_finds_today_closing_price(FetchStorage $source, Asset $asset)
+    {
+        $asset->code()->willReturn('ETFSP500');
+        $source->findByAssetAndDate('ETFSP500', Argument::any())->shouldBeCalled();
+        $this->findTodayClosingPrice($asset);
     }
 }
