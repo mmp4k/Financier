@@ -21,5 +21,5 @@ interface FinderStorage
      */
     public function findByTypeAndUser(string $type, User $user) : array;
 
-    public function findByTypeAndResource(string $type, UuidInterface $idResource) : User;
+    public function findByTypeAndResource(string $type, UuidInterface $idResource) : ?User;
 }

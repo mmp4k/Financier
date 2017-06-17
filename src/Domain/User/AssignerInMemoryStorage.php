@@ -59,7 +59,7 @@ class AssignerInMemoryStorage implements AssignerStorage, FinderStorage
         return $found;
     }
 
-    public function findByTypeAndResource(string $type, UuidInterface $idResource): User
+    public function findByTypeAndResource(string $type, UuidInterface $idResource): ?User
     {
         foreach ($this->data as $userResource) {
             if ($userResource->resourceType() !== $type) {
@@ -73,5 +73,6 @@ class AssignerInMemoryStorage implements AssignerStorage, FinderStorage
             return $userResource->user();
         }
 
+        return null;
     }
 }

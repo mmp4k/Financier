@@ -84,6 +84,10 @@ class Doctrine implements FinderStorage
             ->execute()
             ->fetch();
 
+        if (!$row) {
+            return null;
+        }
+
         $qb = $this->connection->createQueryBuilder();
 
         $userRow = $qb->select('identify')
@@ -92,6 +96,10 @@ class Doctrine implements FinderStorage
             ->setParameter(':uuid', $row['user'])
             ->execute()
             ->fetch();
+
+        if (!$userRow) {
+            return null;
+        }
 
         $user = new User($userRow['identify']);
         $user->setId(Uuid::fromBytes($row['user']));

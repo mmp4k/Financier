@@ -47,6 +47,12 @@ class FetcherSpec extends ObjectBehavior
         $this->findRule($uuid)->shouldBe($rule);
     }
 
+    function it_does_not_find_rule_by_uuid(FetcherStorage $storage, UuidInterface $uuid)
+    {
+        $storage->getNotifierRules()->willReturn([]);
+        $this->findRule($uuid)->shouldBeNull();
+    }
+
     function it_does_not_found_rule_if_factory_does_not_support(UuidInterface $uuid, FetcherStorage $storage, NotifierRuleFactory $factory)
     {
         $this->addFactory($factory);
