@@ -1,5 +1,12 @@
 default:
   suites:
-    default:
+    Wallet:
+      paths:
+        - %paths.base%/features/Wallet
+      contexts:
+        - WalletContext
+    GPW:
+      paths:
+        - %paths.base%/features/GPW
       contexts:
         - GPWContext
