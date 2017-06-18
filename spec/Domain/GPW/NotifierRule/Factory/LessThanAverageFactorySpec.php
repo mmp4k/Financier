@@ -2,15 +2,14 @@
 
 namespace spec\Domain\GPW\NotifierRule\Factory;
 
-use Domain\GPW\NotifierRule\Factory\LessThanFactory;
-use Domain\GPW\NotifierRule\LessThan;
+use Domain\GPW\NotifierRule\Factory\LessThanAverageFactory;
+use Domain\GPW\NotifierRule\LessThanAverage;
 use Domain\Notifier\NotifierRuleFactory;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
-class LessThanFactorySpec extends ObjectBehavior
+class LessThanAverageFactorySpec extends ObjectBehavior
 {
     function let()
     {
@@ -19,21 +18,20 @@ class LessThanFactorySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(LessThanFactory::class);
+        $this->shouldHaveType(LessThanAverageFactory::class);
     }
 
     function it_supports_only_less_than_rule()
     {
-        $this->support('Domain\GPW\NotifierRule\LessThan')->shouldBe(true);
+        $this->support('Domain\GPW\NotifierRule\LessThanAverage')->shouldBe(true);
     }
 
     function it_creates_rule_from_array()
     {
         $options = [
-            'minValue' => 15.2,
             'assetName' => 'ETF',
             'id' => Uuid::uuid4(),
         ];
-        $this->create($options)->shouldImplement(LessThan::class);
+        $this->create($options)->shouldImplement(LessThanAverage::class);
     }
 }

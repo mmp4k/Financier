@@ -43,4 +43,12 @@ class FetcherSpec extends ObjectBehavior
         $source->findByAssetAndDate('ETFSP500', Argument::any())->shouldBeCalled();
         $this->findTodayClosingPrice($asset);
     }
+
+    function it_finds_closing_prices_from_end_of_last_ten_months(FetchStorage $source, Asset $asset, \DateTime $date)
+    {
+        $asset->code()->willReturn('ETFSP500');
+        $source->findByAssetAndDate('ETFSP500', Argument::any())->shouldBeCalledTimes(10);
+
+        $this->findClosingPricesFromEndLastTenMonths($asset, new \DateTime());
+    }
 }

@@ -33,4 +33,33 @@ class Fetcher
     {
         return $this->source->findByAssetAndDate($asset->code(), new \DateTime());
     }
+
+    /**
+     * @param Asset $asset
+     * @param \DateTime $sinceDate
+     *
+     * @return ClosingPrice[]
+     */
+    public function findClosingPricesFromEndLastTenMonths(Asset $asset, \DateTime $sinceDate)
+    {
+        $closingPrices = [];
+
+        for ($i = 10; $i > 0; $i--) {
+            $date = clone $sinceDate;
+            $date->sub(new \DateInterval('P'.$i.'M'));
+            $date->modify('last day of this month');
+
+            $dates[] = $date;
+
+            $businessDay = new BusinessDay($date);
+
+            while (!$businessDay->isBusinessDay()) {
+                $date->sub(new \DateInterval('P1D'));
+            }
+
+            $closingPrices[] = $this->source->findByAssetAndDate($asset->code(), $date);
+        }
+
+        return $closingPrices;
+    }
 }

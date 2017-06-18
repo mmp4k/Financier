@@ -139,4 +139,21 @@ class GPWContext implements Context
         $rules = $finder->findRules($this->user);
         return assert(count($rules) === 1);
     }
+
+    /**
+     * @When /^The average from last ten months is ([\d\.]+) PLN$/
+     */
+    public function theAverageFromLastTenMonthsIsPLN(float $average)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When Share price is :sharePrice PLN
+     */
+    public function sharePriceIsPln(float $sharePrice)
+    {
+        throw new PendingException();
+    }
+
 }

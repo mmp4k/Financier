@@ -12,6 +12,6 @@ $fetcher = new \Domain\GPW\Fetcher(new \Architecture\GPW\Fetcher\Doctrine($conne
 $persister = new \Domain\GPW\Persister(new \Architecture\GPW\Persister\Doctrine($connection, $fetcher));
 $importer = new \Domain\GPW\Importer(new \Architecture\GPW\Importer\Stooq(new \GuzzleHttp\Client()), $persister);
 
-foreach (['ETFSP500', 'ETFDAX', 'ETFW20L'] as $assetCode) {
+foreach (\Domain\GPW\GPW::$assets as $assetCode) {
     $importer->importAsset(new \Domain\GPW\Asset($assetCode));
 }
