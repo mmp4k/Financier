@@ -127,4 +127,21 @@ class WalletSpec extends ObjectBehavior
     {
         $this->getTransactions()->shouldBe([]);
     }
+
+    function it_counts_profit_as_money_value(WalletTransaction $transaction1, WalletTransaction $transaction2)
+    {
+        $currentPrice = 20.0;
+        $commissionOut = 5.0;
+
+        $transaction1->boughtValue()->willReturn(5*15);
+        $transaction2->boughtValue()->willReturn(5*15);
+        $transaction1->currentValue(20, 2.5)->willReturn(92.5);
+        $transaction2->currentValue(20, 2.5)->willReturn(92.5);
+
+        $this->addTransaction($transaction1);
+        $this->addTransaction($transaction2);
+
+        $this->moneyProfit($currentPrice, $commissionOut)->shouldBeFloat();
+        $this->moneyProfit($currentPrice, $commissionOut)->shouldBe(35.0);
+    }
 }

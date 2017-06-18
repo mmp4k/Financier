@@ -25,6 +25,16 @@ class WalletContext implements Context
     private $assignerStorage;
 
     /**
+     * @var float
+     */
+    private $currentSharePrice;
+
+    /**
+     * @var float
+     */
+    private $currentCommissionOut;
+
+    /**
      * @BeforeScenario
      */
     public function prepare()
@@ -38,11 +48,11 @@ class WalletContext implements Context
         return new Domain\Wallet\Wallet();
     }
 
-    protected function createTransaction()
+    protected function createTransaction($boughtAssets = 5)
     {
         return new \Domain\Wallet\WalletTransaction(
             new \Domain\Wallet\TestAsset(),
-            new DateTime(), 5, 15.0, 5.0);;
+            new DateTime(), $boughtAssets, 15.0, 5.0);;
     }
 
     protected function assignWallet(\Domain\Wallet\Wallet $wallet)
@@ -179,5 +189,56 @@ class WalletContext implements Context
         $wallets = $this->findUserWallets($this->user);
         assert(1 === count($wallets));
         assert(0 === count($wallets[0]->getTransactions()));
+    }
+
+    /**
+     * @When /^User have a wallet with three transactions, each transactions costs 15.0 PLN plus \+ 5.00 PLN for commission$/
+     */
+    public function userHaveAWalletWithThreeTransactionsEachTransactionsCostsPLNPlusPLNForCommission()
+    {
+        $this->wallet = $this->createWallet();
+
+        for ($i = 0; $i < 3; $i++) {
+            $transaction = $this->createTransaction(1);
+            $this->wallet->addTransaction($transaction);
+        }
+    }
+
+    /**
+     * @Given /^Share price is (\d.+) PLN$/
+     */
+    public function sharePriceIsPLN(float $sharePrice)
+    {
+        $this->currentSharePrice = $sharePrice;
+    }
+
+    /**
+     * @Given /^Commission out is (\d.+) PLN$/
+     */
+    public function commissionOutIsPLN(float $commissionOut)
+    {
+        $this->currentCommissionOut = $commissionOut;
+    }
+
+    /**
+     * @Then /^Value of investments is ([\-\.\d]+) PLN$/
+     */
+    public function valueOfInvestmentsIsPLN(float $expectedValue)
+    {
+        $currentValue = $this->wallet->currentValue($this->currentSharePrice, $this->currentCommissionOut);
+
+        $equalFloat = (abs(($expectedValue-$currentValue)/$currentValue) < 0.00001);
+        assert($equalFloat === true, sprintf("Current value is %s, expected: %s", $currentValue, $expectedValue));;
+    }
+
+    /**
+     * @Given /^My profit is ([\-\.\d]+) PLN$/
+     */
+    public function myProfitIsPLN(float $expectedProfit)
+    {
+        $currentValue = $this->wallet->moneyProfit($this->currentSharePrice, $this->currentCommissionOut);
+
+        $equalFloat = (abs(($expectedProfit-$currentValue)/$currentValue) < 0.00001);
+        assert($equalFloat === true, sprintf("Current value is %s, expected: %s", $currentValue, $expectedProfit));;
     }
 }

@@ -69,6 +69,11 @@ class Wallet
         $this->transactions[] = $transaction;
     }
 
+    public function moneyProfit(float $currentPriceOfSingleAsset, float $commissionOut) : float
+    {
+        return $this->currentValue($currentPriceOfSingleAsset, $commissionOut)-$this->boughtValue();
+    }
+
     public function profit(float $currentPriceOfSingleAsset, float $commissionOut) : float
     {
         $boughtValues = 0;
